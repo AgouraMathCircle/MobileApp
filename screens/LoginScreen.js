@@ -21,6 +21,7 @@ const LoginScreen = ({ navigation }) => {
   const [serverError, setServerError] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
+
   useEffect(() => {
     const loadStoredCredentials = async () => {
       const storedUsername = await AsyncStorage.getItem('username');
@@ -39,7 +40,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        GlobalVariable.AMCApiurl+'ValidateUser', // Full URL
+        GlobalVariable.AMCApiurl+'UserValidate', // Full URL
         {
           UserName: username,
           Password: password,
@@ -54,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
 
       if (response.data?.isSuccess) {
         clearInputs();
-        const { userFirstName, userLastName, userType, userEmail, userId, chapterID } = response.data;
+        const { userFirstName, userLastName, userType, userEmail, userId, chapterID,enableScoreUpdate } = response.data;
       
 
       // Update GlobalVariable
@@ -65,6 +66,7 @@ const LoginScreen = ({ navigation }) => {
       GlobalVariable.userId = userId;
       GlobalVariable.chapterID = chapterID;
       GlobalVariable.userType = userType;
+      GlobalVariable.enableScoreUpdate=enableScoreUpdate;
 
 
         if (rememberMe) {
@@ -89,7 +91,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLoginSkip = async (storedUsername, storedPassword) => {
     try {
-      const response = await axios.post(GlobalVariable.AMCApiurl+'ValidateUser', {
+      const response = await axios.post(GlobalVariable.AMCApiurl+'UserValidate', {
         UserName: storedUsername,
         Password: storedPassword,
         Device: 'mobile',
@@ -138,11 +140,11 @@ const LoginScreen = ({ navigation }) => {
 
   const navigateToDashboard = (userType, username, firstName, chapterID) => {
     const routes = {
-      V: 'VolunteerDashboard',
-      A: 'AdministratorDashboard',
+      V: 'Volunteer Dashboard',
+      A: 'Administrator Dashboard',
       S: 'Student Dashboard',
-      I: 'InstructorDashboard',
-      C: 'CoordinatorDashboard',
+      I: 'Instructor Dashboard',
+      C: 'Coordinator Dashboard',
     };
 
     if (routes[userType]) {
@@ -226,9 +228,11 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.navigate('Forgot password')}>
           <Text style={styles.forgotText}>Forgot Password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Volunteer Register')}>
+      
+        <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Volunteer Registration')}>
           <Text style={styles.registerText}>Register as Volunteer</Text>
         </TouchableOpacity>
+
         <Text style={styles.copyrightText}>© Copyright 2015-{currentYear} Agoura Math Circle</Text>
       </View>
     </SafeAreaView>

@@ -1,25 +1,18 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-} from 'react-native';
+import { View, Text, TextInput, Image, StyleSheet, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import defaultProfPic from '../assets/profile-pic.png';
 import RNPickerSelect from 'react-native-picker-select';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import CheckBox from 'react-native-check-box'; // Updated import
 import GlobalVariable from './gobal';
 
-export default function StudentUserprofile() {
+
+export default function ProfileScreen() {
   const route = useRoute();
   const navigation = useNavigation();
-
-  const {
+  const 
+  {
     studentID,
     studentName,
     school,
@@ -28,44 +21,21 @@ export default function StudentUserprofile() {
     phoneNumber,
     state,
     country,
+    location,
+    chapter,
+    registrationStatus,
+    registrationsession,  
   } = route.params || {};
 
+   
   const [profileImage, setProfileImage] = useState(defaultProfPic);
-  const [fName, setFName] = useState(studentName || '');
+  const [fName, setFName] = useState(studentName || 'DemoFirst');
   const [schoolName, setSchoolName] = useState(school || '');
   const [cityName, setCityName] = useState(city || '');
   const [stateName, setStateName] = useState(state || '');
   const [countryName, setCountryName] = useState(country || 'united states');
   const [gradeValue, setGradeValue] = useState(grade || 'N/A');
-  const [loading, setLoading] = useState(false);
-  const [registerStatus, setRegisterStatus] = useState('Yes'); 
-
-  const countryItems = [
-    { label: 'United States', value: 'united states' },
-    { label: 'Canada', value: 'canada' },
-    { label: 'United Kingdom', value: 'united kingdom' },
-    { label: 'China', value: 'china' },
-    { label: 'India', value: 'india' },
-    { label: 'Singapore', value: 'singapore' },
-    { label: 'Mexico', value: 'mexico' },
-    { label: 'Malaysia', value: 'malaysia' },
-    { label: 'Other', value: 'other' },
-  ];
-
-  const grades = [
-    { label: 'Grade 1', value: '1' },
-    { label: 'Grade 2', value: '2' },
-    { label: 'Grade 3', value: '3' },
-    { label: 'Grade 4', value: '4' },
-    { label: 'Grade 5', value: '5' },
-    { label: 'Grade 6', value: '6' },
-    { label: 'Grade 7', value: '7' },
-    { label: 'Grade 8', value: '8' },
-    { label: 'Grade 9', value: '9' },
-    { label: 'Grade 10', value: '10' },
-    { label: 'Grade 11', value: '11' },
-    { label: 'Grade 12', value: '12' },
-  ];
+  const [isRegistered, setIsRegistered] = useState(false); // State for checkbox
 
   const handleChangeAvatar = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -86,14 +56,12 @@ export default function StudentUserprofile() {
   };
 
   const handleUpdate = async () => {
-    setLoading(true);  // Set loading state to true while awaiting API response
-
     try {
       const response = await fetch(GlobalVariable.AMCApiurl+'UpdateStudentDetail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Accept: '*/*',
+          'Accept': '*/*',
         },
         body: JSON.stringify({
           studentId: studentID,
@@ -106,33 +74,32 @@ export default function StudentUserprofile() {
           city: cityName,
           country: countryName,
           state: stateName,
-          memberType: '',
+          memberType: GlobalVariable.userType,
+          registrationUpdate:  registrationStatus, // Pass 'Y' or 'N'
+          registrationUserName: GlobalVariable.userName,
+          registrationSession: registrationsession,
+          registrationLocation: location,
+          registrationChapter: chapter,
         }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        Alert.alert('Profile updated successfully!');
-        navigation.navigate('Studentuser profile', {
-          studentID,
-          studentName: fName,
-          school: schoolName,
-          grade: gradeValue,
-          city: cityName,
-          phoneNumber,
-          state: stateName,
-          country: countryName,
-        });
-      } else {
-        const data = await response.json();
-        console.error('API Response:', data);
-        throw new Error(data.message || 'Failed to update student details');
+      if (!response.ok) {
+        throw new Error('Failed to update student details');
       }
+
+      Alert.alert('Profile updated successfully!');
+      navigation.navigate('ProfileScreen', {
+        studentID,
+        studentName: fName,
+        school: schoolName,
+        grade: gradeValue,
+        city: cityName,
+        phoneNumber,
+        state: stateName,
+        country: countryName,
+      });
     } catch (error) {
-      console.error('Error:', error.message);
       Alert.alert('Error', error.message || 'An error occurred while updating the profile.');
-    } finally {
-      setLoading(false);  // Set loading state back to false
     }
   };
 
@@ -179,7 +146,20 @@ export default function StudentUserprofile() {
           <Text style={styles.label}>Grade:</Text>
           <RNPickerSelect
             onValueChange={setGradeValue}
-            items={grades}
+            items={[
+              { label: 'Grade 1', value: '1' },
+              { label: 'Grade 2', value: '2' },
+              { label: 'Grade 3', value: '3' },
+              { label: 'Grade 4', value: '4' },
+              { label: 'Grade 5', value: '5' },
+              { label: 'Grade 6', value: '6' },
+              { label: 'Grade 7', value: '7' },
+              { label: 'Grade 8', value: '8' },
+              { label: 'Grade 9', value: '9' },
+              { label: 'Grade 10', value: '10' },
+              { label: 'Grade 11', value: '11' },
+              { label: 'Grade 12', value: '12' },
+            ]}
             value={gradeValue}
             placeholder={{ label: 'Select your Grade', value: null }}
             style={pickerSelectStyles}
@@ -210,26 +190,42 @@ export default function StudentUserprofile() {
           <Text style={styles.label}>Country:</Text>
           <RNPickerSelect
             onValueChange={setCountryName}
-            items={countryItems}
+            items={[
+              { label: 'United States', value: 'united states' },
+              { label: 'Canada', value: 'canada' },
+              { label: 'United Kingdom', value: 'united kingdom' },
+              { label: 'China', value: 'china' },
+              { label: 'India', value: 'india' },
+              { label: 'Singapore', value: 'singapore' },
+              { label: 'Mexico', value: 'mexico' },
+              { label: 'Malaysia', value: 'malaysia' },
+              { label: 'Other', value: 'other' },
+            ]}
             value={countryName}
             placeholder={{ label: 'Select your Country', value: null }}
             style={pickerSelectStyles}
           />
         </View>
-        {registerStatus === 'Yes' ? (
-  <>
-    <Text style={styles.forFallText}>For Fall 2025</Text>
-    <TouchableOpacity style={styles.updateButton} onPress={() => Alert.alert('Registered!')}>
-      <Text style={styles.updateButtonText}>Click to Register</Text>
-    </TouchableOpacity>
-  </>
-) : (
-  <Text style={styles.comingSoonText}>Coming Soon...</Text>
-)}
+        
+         <View style={styles.checkboxContainer}>
+         <Text style={styles.label}>Registration Status:</Text>
+         <Text style={styles.nonEditableText}>{registrationStatus}</Text>
+         {registrationStatus==='Not Registered' && (
+            <CheckBox
+             style={{ padding: 10 }}
+             onClick={() => {
+               const newChecked = !isRegistered;
+               setIsRegistered(newChecked);
+               setRegistrationStatus(newChecked ? 'Y' : 'N');
+             }}
+             isChecked={isRegistered}
+             rightText="Register for Next Session" 
+           />
+         )}
+      </View>
 
-
-        <TouchableOpacity style={styles.updateButton} onPress={handleUpdate} disabled={loading}>
-          <Text style={styles.updateButtonText}>{loading ? 'Updating...' : 'Update'}</Text>
+        <TouchableOpacity style={styles.updateButton} onPress={handleUpdate}>
+          <Text style={styles.updateButtonText}>Update</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -291,43 +287,40 @@ const styles = StyleSheet.create({
   updateButton: {
     marginTop: 20,
     backgroundColor: '#2E7D32',
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
-    alignItems: 'center',
-    width: '90%',
   },
   updateButtonText: {
     color: '#fff',
-    fontSize: 16,
-  },
-  forFallText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: 'darkgreen',
-    marginBottom: 10,
-    textAlign: 'center',
+  },
+  checkboxContainer: {
+    marginVertical: 10,
+    width: '90%',
   },
 });
 
-const pickerSelectStyles = {
+const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
-    height: 40,
     fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    paddingVertical: 12,
     paddingHorizontal: 10,
-    color: '#000',
-    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30,
   },
   inputAndroid: {
-    height: 40,
     fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
     paddingHorizontal: 10,
-    color: '#000',
-    marginBottom: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'gray',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30,
   },
-};
+});

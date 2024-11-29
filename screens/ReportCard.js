@@ -19,6 +19,7 @@ const ReportCard = () => {
     const [allow, setAllow] = useState('yes');
     const userName = GlobalVariable.userName;
     const usertype = GlobalVariable.userType;
+    const enableScoreUpdate =GlobalVariable.enableScoreUpdate;
 
     useEffect(() => {
         fetchReportCardData();
@@ -135,7 +136,7 @@ const ReportCard = () => {
                 <Text style={styles.title}>Report Card</Text>
                 <View style={styles.line} />
 
-                {allow === 'yes' && usertype === 'S' && (
+                {enableScoreUpdate === 'Y' && usertype === 'S' && (
                     <TouchableOpacity style={styles.button} onPress={() => setShowInputFields(!showInputFields)}>
                         <Text style={styles.buttonText}>{showInputFields ? "Hide Input Fields" : "Update Score"}</Text>
                     </TouchableOpacity>
@@ -145,7 +146,9 @@ const ReportCard = () => {
                     <Text style={message.type === 'success' ? styles.successText : styles.errorText}>
                         {message.text}
                     </Text>
-                ) : null}
+                ) : (
+                    <Text style={styles.closedMessage}>The score update window has closed.</Text>
+                )}
 
                 {showInputFields && (
                     <>
@@ -180,7 +183,7 @@ const ReportCard = () => {
                     </>
                 )}
 
-                <ScrollView horizontal>
+                <ScrollView horizontal >
                     <View style={styles.tableContainer}>
                         <View style={styles.tableHeader}>
                             {["Name", "Semester", "Exam Type", "Total Score", "Your Score", "Exam Date"].map(header => (
@@ -244,6 +247,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         textAlignVertical: 'center',
         overflow: 'hidden',
+    },
+    closedMessage: {
+        color: 'red',
+        textAlign: 'center',
+        marginVertical: 10,
+        fontWeight: 'bold',
     },
 });
 

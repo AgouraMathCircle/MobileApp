@@ -7,6 +7,7 @@ const GlobalVariable = {
   userLastName: '',
   userEmail: '',
   userId: '',
+  enableScoreUpdate: '',
 };
 
 export default GlobalVariable;

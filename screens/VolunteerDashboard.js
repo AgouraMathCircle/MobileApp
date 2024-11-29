@@ -158,11 +158,11 @@ const VolunteerDashboardScreen = ({ navigation }) => {
           <MaterialIcons name="home" size={28} color="#fff" />
           <Text style={styles.Volunteerdb_navText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MaterialScreen', { userName })} style={styles.Volunteerdb_navItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('Documents')} style={styles.Volunteerdb_navItem}>
           <MaterialIcons name="description" size={28} color="#fff" />
           <Text style={styles.Volunteerdb_navText}>Class Material</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Timesheetscreen', { userName })} style={styles.Volunteerdb_navItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={styles.Volunteerdb_navItem}>
           <MaterialIcons name="assessment" size={28} color="#fff" />
           <Text style={styles.Volunteerdb_navText}>Timesheets</Text>
         </TouchableOpacity>

@@ -127,9 +127,6 @@ const CoordinatorDashboardScreen = ({ navigation }) => {
         <View style={styles.Studentdb_Container}>
           <Text style={styles.Studentdb_Title}>Students</Text>
           <View style={styles.Studentdb_tableHeader}>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>Edit</Text>
-            </View>
             <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>ID</Text>
             <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>Name</Text>
             <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>Class</Text>
@@ -143,21 +140,6 @@ const CoordinatorDashboardScreen = ({ navigation }) => {
           ) : students.length > 0 ? (
             students.map((student, index) => (
               <View key={`${student.StudentID}-${index}`} style={styles.Studentdb_tableRow}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('Studentuserprofile', {
-                    studentName: student.StudentName,
-                    grade: student.Grade,
-                    location: student.EventLocation,
-                    city: student.City,
-                    state: student.SState,
-                    country: student.Country,
-                    school: student.School,
-                    studentID: student.StudentID,
-                  })}
-                  style={[styles.Studentdb_tableCell, styles.Studentdb_editButton]}
-                >
-                  <Image source={Editicon} style={styles.Studentdb_useredit} />
-                </TouchableOpacity>
                 <Text style={styles.Studentdb_tableCell}>{student.StudentID}</Text>
                 <Text style={styles.Studentdb_tableCell}>{student.StudentName}</Text>
                 <Text style={styles.Studentdb_tableCell}>{student.Class}</Text>
@@ -171,15 +153,15 @@ const CoordinatorDashboardScreen = ({ navigation }) => {
       </ScrollView>
  {/* Bottom Navigation */}
  <View style={styles.Studentdb_bottomNav}>
-  <TouchableOpacity onPress={() => navigation.navigate('MaterialScreen', { userName })} style={styles.Studentdb_navItem}>
-    <MaterialIcons name="description" size={28} color="#fff" />
-    <Text style={styles.Studentdb_navText}>Material</Text>
+ <TouchableOpacity onPress={() => navigation.navigate('Documents')} style={styles.Studentdb_navItem}>
+          <MaterialIcons name="description" size={28} color="#fff" />
+          <Text style={styles.Studentdb_navItem}>Class Material</Text>
   </TouchableOpacity>
-  <TouchableOpacity onPress={() => navigation.navigate('Report Card', { userName })} style={styles.Studentdb_navItem}>
+  <TouchableOpacity onPress={() => navigation.navigate('Admin ReportCard', { userName })} style={styles.Studentdb_navItem}>
     <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
     <Text style={styles.Studentdb_navText}>Report Card</Text>
   </TouchableOpacity>
-  <TouchableOpacity onPress={() => navigation.navigate('Timesheetscreen', { userName })} style={styles.Studentdb_navItem}>
+  <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={styles.Studentdb_navItem}>
     <MaterialIcons name="assessment" size={28} color="#fff" />
     <Text style={styles.Studentdb_navText}>Timesheets</Text>
   </TouchableOpacity>

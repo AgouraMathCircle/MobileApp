@@ -24,13 +24,14 @@ const StudentDashboardScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
   const [scheduleError, setScheduleError] = useState(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(0); // added state to hold the registration status
   const userName = GlobalVariable.userName;
   const userFirstName = GlobalVariable.userFirstName;
   const chapterID = GlobalVariable.chapterID;
-  
+
   const fetchData = async () => {
     try {
-      const response = await fetch(GlobalVariable.AMCApiurl+'UserDashboardDetail', {
+      const response = await fetch(GlobalVariable.AMCApiurl + 'UserDashboardDetail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +58,8 @@ const StudentDashboardScreen = ({ navigation }) => {
         // Meeting schedule
         const meetingData = JSON.parse(data.meetingSchedule);
         setMeetingSchedule(meetingData);
-      } else {
+
+        } else {
         setError('Failed to load data.');
         setScheduleError('Failed to load meeting schedule.');
       }
@@ -130,7 +132,6 @@ const StudentDashboardScreen = ({ navigation }) => {
                 <Text style={styles.Studentdb_paraText}>Meeting Date: {meeting.MeetingDate}</Text>
                 <Text style={styles.Studentdb_paraText}>Meeting ID: {meeting.MeetingID}</Text>
                 <Text style={styles.Studentdb_paraText}>Passcode: {meeting.Passcode}</Text>
-                
                 <Text
                   style={[styles.Studentdb_paraText, styles.Studentdb_link]}
                   onPress={() => Linking.openURL(meeting.MeetingURL)}
@@ -153,8 +154,8 @@ const StudentDashboardScreen = ({ navigation }) => {
             </View>
             <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>ID</Text>
             <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>Name</Text>
+            <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>Semester</Text>
             <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>Class</Text>
-            <Text style={[styles.Studentdb_tableHeaderText, { color: 'white' }]}>Location</Text>
           </View>
 
           {loading ? (
@@ -174,6 +175,9 @@ const StudentDashboardScreen = ({ navigation }) => {
                     country: student.Country,
                     school: student.School,
                     studentID: student.StudentID,
+                    registrationsession:student.IsRegistrationOpen.split('~')[0], 
+                    registrationStatus: student.IsRegistrationOpen.split('~')[1], 
+                    chapter:student.Chapter, // Passing the registration status
                   })}
                   style={[styles.Studentdb_tableCell, styles.Studentdb_editButton]}
                 >
@@ -181,8 +185,8 @@ const StudentDashboardScreen = ({ navigation }) => {
                 </TouchableOpacity>
                 <Text style={styles.Studentdb_tableCell}>{student.StudentID}</Text>
                 <Text style={styles.Studentdb_tableCell}>{student.StudentName}</Text>
-                <Text style={styles.Studentdb_tableCell}>{student.Grade}</Text>
-                <Text style={styles.Studentdb_tableCell}>{student.EventLocation}</Text>
+                <Text style={styles.Studentdb_tableCell}>{student.EventSession}</Text>
+                <Text style={styles.Studentdb_tableCell}>{student.Class}-{student.EventLocation}</Text>
               </View>
             ))
           ) : (
@@ -197,7 +201,7 @@ const StudentDashboardScreen = ({ navigation }) => {
           <MaterialIcons name="home" size={28} color="#fff" />
           <Text style={styles.Studentdb_navText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MaterialScreen')} style={styles.Studentdb_navItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('Documents')} style={styles.Studentdb_navItem}>
           <MaterialIcons name="description" size={28} color="#fff" />
           <Text style={styles.Studentdb_navText}>Class Material</Text>
         </TouchableOpacity>
@@ -205,20 +209,51 @@ const StudentDashboardScreen = ({ navigation }) => {
           <MaterialIcons name="assessment" size={28} color="#fff" />
           <Text style={styles.Studentdb_navText}>Report Card</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={() => navigation.navigate('Message Center')} style={styles.Studentdb_navItem}>
           <MaterialIcons name="message" size={28} color="#fff" />
           <Text style={styles.Studentdb_navText}>Messages</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity onPress={() => navigation.navigate('Studentup')} style={styles.Studentdb_navItem}>
-          <MaterialIcons name="person" size={28} color="#fff" />
+          <MaterialIcons name="account-circle" size={28} color="#fff" />
           <Text style={styles.Studentdb_navText}>Profile</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
-}
+};
+
+// Student User Profile Screen
+const StudentUserProfile = ({ route }) => {
+  const {
+    studentName,
+    grade,
+    location,
+    city,
+    state,
+    country,
+    school,
+    studentID,
+    isRegistrationOpen,
+  } = route.params;
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.headerText}>{studentName}'s Profile</Text>
+      <Text>Grade: {grade}</Text>
+      <Text>Location: {location}</Text>
+      <Text>City: {city}</Text>
+      <Text>State: {state}</Text>
+      <Text>Country: {country}</Text>
+      <Text>School: {school}</Text>
+      <Text>Student ID: {studentID}</Text>
+      <Text>Registration Status: {isRegistrationOpen === 1 ? 'Open' : 'Closed'}</Text>
+      {/* Other profile details */}
+    </SafeAreaView>
+  );
+};
+
 
 const styles = StyleSheet.create({
   Studentdb_container: {
