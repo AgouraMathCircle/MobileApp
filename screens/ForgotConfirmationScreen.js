@@ -4,7 +4,7 @@ import ACElogo from '../assets/ACElogo.png'; // Logo image
 
 const ConfirmationScreen = ({ navigation }) => {
   const handleSignIn = () => {
-    navigation.navigate('SignIn'); // Navigate to SignIn screen
+    navigation.navigate('Login'); // Navigate to SignIn screen
   };
 
   return (

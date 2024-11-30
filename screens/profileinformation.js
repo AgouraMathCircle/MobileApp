@@ -68,7 +68,6 @@ export default function App() {
             <Text style={styles.profile_info_detailText}>Parent Name: {student.ParentName}</Text>
             <Text style={styles.profile_info_detailText}>City: {student.City}, {student.SState}</Text>
             <Text style={styles.profile_info_detailText}>Country: {student.Country}</Text>
-            <Text style={styles.profile_info_detailText}>Email: {student.EmailAddress}</Text>
             <Text style={styles.profile_info_detailText}>Event Session: {student.EventSession}</Text>
             <Text style={styles.profile_info_detailText}>Program: {student.Program}</Text>
             <Text style={styles.profile_info_detailText}>Event Location: {student.EventLocation}</Text>

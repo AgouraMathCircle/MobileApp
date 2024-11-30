@@ -52,10 +52,10 @@ export default function App() {
         <Stack.Screen name='Profileinformation' component={ProfileinformationScreen} />
         <Stack.Screen name='course' component={courseScreen} />
         <Stack.Screen name='ForgotConfirmationScreen' component={ForgotConfirmationScreen} />
-        <Stack.Screen name='Volunteer Dashboard' component={VolunteerDashboard} />
-        <Stack.Screen name='Administrator Dashboard' component={AdministratorDashboard} />
-        <Stack.Screen name='Instructor Dashboard' component={InstructorDashboard} />
-        <Stack.Screen name='Coordinator Dashboard' component={CoordinatorDashboard} />
+        <Stack.Screen name='Volunteer Dashboard' component={VolunteerDashboard} options={{ headerShown: false}}/>
+        <Stack.Screen name='Administrator Dashboard' component={AdministratorDashboard} options={{ headerShown: false}}/>
+        <Stack.Screen name='Instructor Dashboard' component={InstructorDashboard} options={{ headerShown: false}}/>
+        <Stack.Screen name='Coordinator Dashboard' component={CoordinatorDashboard}options={{ headerShown: false}} />
         <Stack.Screen name='Timesheet' component={Timesheetscreen} />
         <Stack.Screen name='Profile' component={Studentup} />
         <Stack.Screen name='Admin ReportCard' component={AdminReportCard} />

@@ -52,7 +52,7 @@ const ProfileScreen = () => {
                     <MaterialIcons name="person-outline" size={24} color="#66BB6A" />
                     <View style={styles.UserProfileScreen_menuTextContainer}>
                         <Text style={styles.UserProfileScreen_menuTitle}>Profile Information</Text>
-                        <Text style={styles.UserProfileScreen_menuSubtitle}>Manage your profile</Text>
+                        <Text style={styles.UserProfileScreen_menuSubtitle}>Student profile</Text>
                     </View>
                 </TouchableOpacity>
 
