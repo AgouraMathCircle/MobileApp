@@ -21,7 +21,6 @@ const LoginScreen = ({ navigation }) => {
   const [serverError, setServerError] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-
   useEffect(() => {
     const loadStoredCredentials = async () => {
       const storedUsername = await AsyncStorage.getItem('username');
@@ -40,7 +39,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        GlobalVariable.AMCApiurl+'UserValidate', // Full URL
+        GlobalVariable.AMCApiurl+'UserValidate',
         {
           UserName: username,
           Password: password,
@@ -55,19 +54,17 @@ const LoginScreen = ({ navigation }) => {
 
       if (response.data?.isSuccess) {
         clearInputs();
-        const { userFirstName, userLastName, userType, userEmail, userId, chapterID,enableScoreUpdate } = response.data;
-      
+        const { userFirstName, userLastName, userType, userEmail, userId, chapterID, enableScoreUpdate } = response.data;
 
-      // Update GlobalVariable
-      GlobalVariable.userName = username;
-      GlobalVariable.userFirstName = userFirstName;
-      GlobalVariable.userLastName = userLastName;
-      GlobalVariable.userEmail = userEmail;
-      GlobalVariable.userId = userId;
-      GlobalVariable.chapterID = chapterID;
-      GlobalVariable.userType = userType;
-      GlobalVariable.enableScoreUpdate=enableScoreUpdate;
-
+        // Update GlobalVariable
+        GlobalVariable.userName = username;
+        GlobalVariable.userFirstName = userFirstName;
+        GlobalVariable.userLastName = userLastName;
+        GlobalVariable.userEmail = userEmail;
+        GlobalVariable.userId = userId;
+        GlobalVariable.chapterID = chapterID;
+        GlobalVariable.userType = userType;
+        GlobalVariable.enableScoreUpdate = enableScoreUpdate;
 
         if (rememberMe) {
           await AsyncStorage.setItem('username', username);
@@ -154,7 +151,16 @@ const LoginScreen = ({ navigation }) => {
     }
   };
 
-  const handleLoginError = (message) => {
+  const handleLoginError = async (message) => {
+    // Clear AsyncStorage in case of login failure
+    try {
+      await AsyncStorage.removeItem('username');
+      await AsyncStorage.removeItem('password');
+      await AsyncStorage.removeItem('rememberMe');
+    } catch (e) {
+      console.error("Error clearing AsyncStorage", e);
+    }
+
     setServerError(message || 'Login failed.');
     setTimeout(() => setServerError(''), 5000);
   };
@@ -168,8 +174,9 @@ const LoginScreen = ({ navigation }) => {
       console.error('Login Error:', error.message);
       Alert.alert('Error', 'Failed to connect to the server. Please try again.');
     }
-    setServerError('Failed to connect to the server. Please try again.');
-    setTimeout(() => setServerError(''), 5000);
+
+    // Optionally clear stored credentials in case of failure to avoid re-using old credentials
+    handleLoginError('Failed to connect to the server. Please try again.');
   };
 
   const handleTrackingError = (error) => {

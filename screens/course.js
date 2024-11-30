@@ -46,7 +46,7 @@ export default function StudentsListScreen() {
 
   return (
     <View style={styles.course_container}>
-      <Text style={styles.course_title}>Course List</Text>
+      <Text style={styles.course_title}>Student List</Text>
 
       <ScrollView horizontal>
         <View style={styles.tableWrapper}>

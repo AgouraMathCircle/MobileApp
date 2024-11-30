@@ -57,7 +57,7 @@ export default function App() {
         <Stack.Screen name='Instructor Dashboard' component={InstructorDashboard} />
         <Stack.Screen name='Coordinator Dashboard' component={CoordinatorDashboard} />
         <Stack.Screen name='Timesheet' component={Timesheetscreen} />
-        <Stack.Screen name='Studentup' component={Studentup} />
+        <Stack.Screen name='Profile' component={Studentup} />
         <Stack.Screen name='Admin ReportCard' component={AdminReportCard} />
 
       </Stack.Navigator>

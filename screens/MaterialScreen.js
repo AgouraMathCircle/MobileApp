@@ -74,8 +74,8 @@ const ClassMaterialScreen = () => {
   const formatText = (text) => {
     if (!text || typeof text !== 'string') return text;
     const formatted = [];
-    for (let i = 0; i < text.length; i += 10) {
-      formatted.push(text.slice(i, i + 10));
+    for (let i = 0; i < text.length; i += 20) {
+      formatted.push(text.slice(i, i + 20));
     }
     return formatted.join('\n');
   };

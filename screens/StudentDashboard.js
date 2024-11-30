@@ -215,7 +215,7 @@ const StudentDashboardScreen = ({ navigation }) => {
           <Text style={styles.Studentdb_navText}>Messages</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Studentup')} style={styles.Studentdb_navItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.Studentdb_navItem}>
           <MaterialIcons name="account-circle" size={28} color="#fff" />
           <Text style={styles.Studentdb_navText}>Profile</Text>
         </TouchableOpacity>

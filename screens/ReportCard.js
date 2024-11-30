@@ -147,7 +147,7 @@ const ReportCard = () => {
                         {message.text}
                     </Text>
                 ) : (
-                    <Text style={styles.closedMessage}>The score update window has closed.</Text>
+                    <Text style={styles.closedMessage}>The Score Update window has closed.</Text>
                 )}
 
                 {showInputFields && (

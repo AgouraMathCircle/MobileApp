@@ -119,12 +119,39 @@ const MessageCenterScreen = () => {
     
         fetchMessagesAndInstructors();
     }, [userName]);
-    
 
-    const handleViewPress = (message) => {
+    const handleViewPress = async (message) => {
         setSelectedMessage(message);
         setViewMessageModalVisible(true);
+
+        try {
+            const response = await fetch(GlobalVariable.AMCApiurl + 'UpdateMessageView', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ trackingID: message.id, mode: 'T' }),
+            });
+
+            if (!response.ok) {
+                console.error('Failed to update message view status');
+                return;
+            }
+
+            // Update the message status to 'Viewed' locally
+            setMessages((prevMessages) =>
+                prevMessages.map((msg) =>
+                    msg.id === message.id ? { ...msg, status: 'Viewed' } : msg
+                )
+            );
+        } catch (error) {
+            console.error('Error updating message view status:', error);
+        }
     };
+    
+
+   
 
     const handleReplyPress = (message) => {
         setSelectedMessage(message);
@@ -254,12 +281,13 @@ const MessageCenterScreen = () => {
         <MessageItem
             {...item}
             index={index}
-            onViewPress={() => handleViewPress(item)}
+            onViewPress={() => handleViewPress(item)} // This triggers the handleViewPress function
             onReplyPress={() => handleReplyPress(item)}
             onDeletePress={() => handleDeletePress(item.id)}
             isSentMessage={showSentMessages}
         />
     );
+
 
     if (loading) {
         return (

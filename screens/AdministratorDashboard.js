@@ -154,7 +154,7 @@ const InstructordbDashboardScreen = ({ navigation }) => {
 
       {/* Bottom Navigation */}
 <View style={styles.Studentdb_bottomNav}>
-  <TouchableOpacity onPress={() => navigation.navigate('Documents ', { userName })} style={styles.Studentdb_navItem}>
+  <TouchableOpacity onPress={() => navigation.navigate('Documents', { userName })} style={styles.Studentdb_navItem}>
     <MaterialIcons name="description" size={28} color="#fff" />
     <Text style={styles.Studentdb_navText}>Material</Text>
   </TouchableOpacity>
