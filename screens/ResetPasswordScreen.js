@@ -174,7 +174,7 @@ const ResetPasswordScreen = () => {
         </View>
 
         <TouchableOpacity style={styles.ResetPasswordScreen_button} onPress={handleResetPassword}>
-          <Text style={styles.ResetPasswordScreen_buttonText}>Reset Password</Text>
+          <Text style={styles.ResetPasswordScreen_buttonText}>Submit</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

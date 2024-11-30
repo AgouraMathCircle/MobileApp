@@ -136,19 +136,24 @@ const ReportCard = () => {
                 <Text style={styles.title}>Report Card</Text>
                 <View style={styles.line} />
 
-                {enableScoreUpdate === 'Y' && usertype === 'S' && (
-                    <TouchableOpacity style={styles.button} onPress={() => setShowInputFields(!showInputFields)}>
-                        <Text style={styles.buttonText}>{showInputFields ? "Hide Input Fields" : "Update Score"}</Text>
-                    </TouchableOpacity>
-                )}
+                {enableScoreUpdate === 'Y' && usertype === 'S' ? (
+    <>
+        <TouchableOpacity style={styles.button} onPress={() => setShowInputFields(!showInputFields)}>
+            <Text style={styles.buttonText}>
+                {showInputFields ? "Hide Input Fields" : "Update Score"}
+            </Text>
+        </TouchableOpacity>
 
-                {message.text ? (
-                    <Text style={message.type === 'success' ? styles.successText : styles.errorText}>
-                        {message.text}
-                    </Text>
-                ) : (
-                    <Text style={styles.closedMessage}>The Score Update window has closed.</Text>
-                )}
+        {message.text ? (
+            <Text style={message.type === 'success' ? styles.successText : styles.errorText}>
+                {message.text}
+            </Text>
+        ) : null}
+    </>
+) : (
+    <Text style={styles.closedMessage}>The Score Update window has closed.</Text>
+)}
+
 
                 {showInputFields && (
                     <>
@@ -178,7 +183,7 @@ const ReportCard = () => {
                         />
 
                         <TouchableOpacity style={styles.button} onPress={addRecord}>
-                            <Text style={styles.buttonText}>Add Record</Text>
+                            <Text style={styles.buttonText}>Update Score</Text>
                         </TouchableOpacity>
                     </>
                 )}
