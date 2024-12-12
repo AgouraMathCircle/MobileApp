@@ -109,13 +109,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'agouramathcircle.AgouraMathCircle'
+    namespace "com.agouramathcircle"
     defaultConfig {
         applicationId 'agouramathcircle.AgouraMathCircle'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "8.0.0"
+        versionName "9.1.1"
     }
     signingConfigs {
         debug {

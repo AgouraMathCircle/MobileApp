@@ -2,7 +2,7 @@
   "expo": {
     "name": "AgouraMathCircle",
     "slug": "AgouraMAthCircle",
-    "version": "8.0.0",
+    "version": "9.1.1",
     "orientation": "portrait",
     "icon": "./assets/ACElogo.png",
     "userInterfaceStyle": "light",
@@ -30,7 +30,6 @@
     "web": {
       "favicon": "./assets/ACElogo.png"
     },
-    "owner" : "sriharii",
     "extra": {
       "eas": {
         "projectId": "b1a83091-a645-4b85-9df1-c2830bf7c1c6"

@@ -1,5 +1,5 @@
 const GlobalVariable = {
-  AMCApiurl:"https://api.agouramathcircle.org/",
+  AMCApiurl:"https://service.agouramathcircle.org/",
   userName: '',
   chapterID: '',
   userType: '',
