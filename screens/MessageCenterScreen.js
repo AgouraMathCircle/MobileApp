@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Modal, TextInput, Image, ActivityIndicator,  ScrollView } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Modal, TextInput, Image, ActivityIndicator,  ScrollView, SafeAreaView, useAnimatedValue } from 'react-native';
 import { Picker } from '@react-native-picker/picker'; // Updated import
-import trashIcon from '../assets/trash.png';
-import { useRoute } from '@react-navigation/native';
 import pickerSelectStyles from '../Styles/pickerSelectStyles';
 import { Keyboard } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import GlobalVariable from './gobal';
+import NavigationStyles from '../Styles/NavigationStyles';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+
+
+
 
 
 
@@ -57,10 +62,12 @@ const MessageCenterScreen = () => {
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [messageHeight, setMessageHeight] = useState(40);
-    const userType = GlobalVariable.userType
     const userName = GlobalVariable.userName;
     const userFirstName = GlobalVariable.userFirstName;
     const chapterID = GlobalVariable.chapterID;
+    const userType = GlobalVariable.userType;
+    const navigation = useNavigation();
+
 
     useEffect(() => {
         const fetchMessagesAndInstructors = async () => {
@@ -299,7 +306,8 @@ const MessageCenterScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
+         <View style={{ flex: 3}}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Message Center</Text>
                 <TouchableOpacity onPress={toggleSentMessages} style={styles.toggleButton}>
@@ -439,15 +447,88 @@ const MessageCenterScreen = () => {
         </TouchableOpacity>
     </View>
 </Modal>
+</SafeAreaView>
+  {/* Bottom Navigation */}
+  <View style={NavigationStyles.bottomNav}>
+  <TouchableOpacity style={NavigationStyles.navItem} onPress={() => {
+    if (GlobalVariable.userType === 'S') {
+      navigation.navigate('Student Dashboard');
+    } else if (GlobalVariable.userType === 'V') {
+      navigation.navigate('Volunteer Dashboard');
+    } else if (GlobalVariable.userType === 'I') {
+      navigation.navigate('Instructor Dashboard');
+    } else if (GlobalVariable.userType === 'A') {
+      navigation.navigate('Administrator Dashboard');
+    } else if (GlobalVariable.userType === 'C') {
+      navigation.navigate('Coordinator Dashboard');
+    } else {
+      console.error('Unknown usertype:', GlobalVariable.userType);
+    }
+  }}>
+    <MaterialIcons name="home" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Home</Text>
+  </TouchableOpacity>
 
-        </View>
+  {/* Common Class Material option */}
+  <TouchableOpacity onPress={() => navigation.navigate('Documents', { userName })} style={NavigationStyles.navItem}>
+    <MaterialIcons name="description" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Material</Text>
+  </TouchableOpacity> {/* Timesheet Button - For Volunteers, Administrators, Instructors, and Coordinators */}
+  {(userType === 'V' || userType === 'A' || userType === 'I' || userType === 'C') && (
+    <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={NavigationStyles.navItem}>
+      <MaterialIcons name="assessment" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Timesheets</Text>
+    </TouchableOpacity>
+  )}
+
+  {/* Report Card Button - For Admin, Instructor, and Student */}
+  {(userType === 'A' || userType === 'S' || userType === 'I' || userType === 'C') && (
+    <TouchableOpacity onPress={() => {
+      if (userType === 'A' || userType === 'I') {
+        navigation.navigate('Admin ReportCard', { userName });
+      } else if (userType === 'C') {
+        navigation.navigate('Admin ReportCard', { userName });
+      } else {
+        navigation.navigate('Report Card');
+      }
+    }} style={NavigationStyles.navItem}>
+      <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Scores</Text>
+    </TouchableOpacity>
+  )}
+
+
+  {/* Messages Button - Common for all user types */}
+  {userType !== 'V' && (
+    <TouchableOpacity onPress={() => navigation.navigate('Message Center', { userName })} style={NavigationStyles.navItem}>
+      <MaterialIcons name="mail-outline" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Messages</Text>
+    </TouchableOpacity>
+  )}
+  {/* Profile Button - Common for all user types */}
+  <TouchableOpacity onPress={() => {
+    if (GlobalVariable.userType === 'S') {
+      navigation.navigate('Profile');
+    } else {
+      navigation.navigate('User Profile', { userName, userFirstName });
+    }
+  }} style={NavigationStyles.navItem}>
+    <MaterialIcons name="person" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Profile</Text>
+  </TouchableOpacity>
+</View>
+
+</View>
+
+        
+        
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 16,
+      //  padding: 16,
         backgroundColor: '#f5f5f5',
     },
     header: {

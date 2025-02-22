@@ -78,11 +78,11 @@ const StudentDashboardScreen = ({ navigation }) => {
   }, [userName, chapterID]);
 
   return (
+     <View style={{ flex: 3}}>
     <SafeAreaView style={styles.Studentdb_container}>
-      <ScrollView contentContainerStyle={styles.Studentdb_scrollContent}>
-        <View style={styles.Studentdb_header}>
+    <View style={styles.Studentdb_header}>
           <View style={styles.Studentdb_headerRow}>
-            <Text style={styles.Studentdb_headerText}>Welcome, {userFirstName}!</Text>
+            <Text style={styles.Studentdb_headerText}>Wellcome, {userFirstName}!</Text>
             <View style={styles.Studentdb_dateContainer}>
               <Text style={styles.Studentdb_headerText}>{new Date().toLocaleDateString()}</Text>
               <TouchableOpacity
@@ -101,6 +101,8 @@ const StudentDashboardScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
+      <ScrollView contentContainerStyle={styles.Studentdb_scrollContent}>
+       
 
         {/* Announcement Section */}
         <View style={styles.Studentdb_Container}>
@@ -194,6 +196,7 @@ const StudentDashboardScreen = ({ navigation }) => {
           )}
         </View>
       </ScrollView>
+      </SafeAreaView>
 
       {/* Bottom Navigation */}
       <View style={styles.Studentdb_bottomNav}>
@@ -203,11 +206,11 @@ const StudentDashboardScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Documents')} style={styles.Studentdb_navItem}>
           <MaterialIcons name="description" size={28} color="#fff" />
-          <Text style={styles.Studentdb_navText}>Class Material</Text>
+          <Text style={styles.Studentdb_navText}>Material</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Report Card')} style={styles.Studentdb_navItem}>
           <MaterialIcons name="assessment" size={28} color="#fff" />
-          <Text style={styles.Studentdb_navText}>Report Card</Text>
+          <Text style={styles.Studentdb_navText}>Scores</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Message Center')} style={styles.Studentdb_navItem}>
@@ -220,7 +223,8 @@ const StudentDashboardScreen = ({ navigation }) => {
           <Text style={styles.Studentdb_navText}>Profile</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    
+    </View>
   );
 };
 
@@ -259,13 +263,14 @@ const styles = StyleSheet.create({
   Studentdb_container: {
     flex: 1,
     backgroundColor: '#f0f0f0',
+   
   },
   Studentdb_scrollContent: {
     padding: 16,
   },
   Studentdb_header: {
     padding: 16,
-    backgroundColor: '#43A047',
+    backgroundColor: 'darkgreen',
     borderRadius: 10,
     marginBottom: 16,
     shadowColor: '#000',
@@ -352,7 +357,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 8,
-    backgroundColor: '#43A047',
+    backgroundColor: 'darkgreen',
     borderRadius: 10,
     padding: 8,
   },
@@ -390,7 +395,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
-    backgroundColor: '#43A047',
+    backgroundColor: 'darkgreen',
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
   },

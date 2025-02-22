@@ -235,6 +235,9 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity onPress={() => navigation.navigate('Forgot password')}>
           <Text style={styles.forgotText}>Forgot Password?</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Student Registration')}>
+          <Text style={styles.registerText}>Register as Student</Text>
+        </TouchableOpacity>
       
         <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate('Volunteer Registration')}>
           <Text style={styles.registerText}>Register as Volunteer</Text>
@@ -294,11 +297,11 @@ const styles = StyleSheet.create({
   },
   rememberMeText: {
     fontSize: 14,
-    color: '#408A4E',
+    color: 'darkgreen',
     marginLeft: 8,
   },
   loginButton: {
-    backgroundColor: '#408A4E',
+    backgroundColor: 'darkgreen',
     padding: 15,
     borderRadius: 5,
     marginBottom: 10,
@@ -316,7 +319,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   registerButton: {
-    backgroundColor: '#408A4E',
+    backgroundColor: 'darkgreen',
     padding: 15,
     borderRadius: 5,
     marginBottom: 10,

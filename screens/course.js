@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Alert, ScrollView, Dimensions } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient'; // Install expo-linear-gradient for gradients
+import { SafeAreaView } from 'react-native-safe-area-context';
 import GlobalVariable from './gobal';
 
 export default function StudentsListScreen() {
   const route = useRoute();
+  const navigation = useNavigation();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
   const userName = GlobalVariable.userName;
-  const userFirstName = GlobalVariable.userFirstName;
   const chapterID = GlobalVariable.chapterID;
 
   useEffect(() => {
@@ -17,7 +28,7 @@ export default function StudentsListScreen() {
         const response = await fetch(GlobalVariable.AMCApiurl + 'GetStudentsList', {
           method: 'POST',
           headers: {
-            'Accept': '*/*',
+            Accept: '*/*',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ userName, chapterID }),
@@ -41,33 +52,44 @@ export default function StudentsListScreen() {
   }, [userName, chapterID]);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#357a38" style={styles.course_loading} />;
+    return <ActivityIndicator size="large" color="#4CAF50" style={styles.loadingIndicator} />;
   }
 
   return (
-    <View style={styles.course_container}>
-      <Text style={styles.course_title}>Student List</Text>
+    <SafeAreaView style={styles.container}>
+      {/* Header Section */}
+      <LinearGradient
+        colors={['darkgreen', 'darkgreen']}
+        style={styles.header}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+          <Text style={styles.backButtonText}>← Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.title}>Student List</Text>
+      </LinearGradient>
 
+      {/* Table Section */}
       <ScrollView horizontal>
         <View style={styles.tableWrapper}>
-          <View style={[styles.course_tableHeader, styles.tableRow]}>
-            <Text style={[styles.course_tableHeaderText, styles.tableCell]}>ID</Text>
-            <Text style={[styles.course_tableHeaderText, styles.tableCell]}>Name</Text>
-            <Text style={[styles.course_tableHeaderText, styles.tableCell]}>Session</Text>
-            <Text style={[styles.course_tableHeaderText, styles.tableCell]}>Class</Text>
-            <Text style={[styles.course_tableHeaderText, styles.tableCell]}>Location</Text>
-            <Text style={[styles.course_tableHeaderText, styles.tableCell]}>Reg Date</Text>
+          {/* Table Header */}
+          <View style={[styles.tableHeader, styles.tableRow]}>
+            <Text style={[styles.headerText, styles.tableCell]}>ID</Text>
+            <Text style={[styles.headerText, styles.tableCell]}>Name</Text>
+            <Text style={[styles.headerText, styles.tableCell]}>Session</Text>
+            <Text style={[styles.headerText, styles.tableCell]}>Class</Text>
+            <Text style={[styles.headerText, styles.tableCell]}>Location</Text>
+            <Text style={[styles.headerText, styles.tableCell]}>Reg Date</Text>
           </View>
 
-          <ScrollView style={styles.course_verticalScrollView}>
+          {/* Table Rows */}
+          <ScrollView style={styles.verticalScrollView}>
             {students.map((item, index) => (
-              <View key={`${item.StudentID}-${index}`} style={[styles.course_tableRow, styles.tableRow]}>
-                <Text style={[styles.course_tableCell, styles.tableCell]}>{item.StudentID}</Text>
-                <Text style={[styles.course_tableCell, styles.tableCell]}>{item.StudentName}</Text>
-                <Text style={[styles.course_tableCell, styles.tableCell]}>{item.EventSession}</Text>
-                <Text style={[styles.course_tableCell, styles.tableCell]}>{item.Class}</Text>
-                <Text style={[styles.course_tableCell, styles.tableCell]}>{item.EventLocation}</Text>
-                <Text style={[styles.course_tableCell, styles.tableCell]}>
+              <View key={`${item.StudentID}-${index}`} style={[styles.tableRow, styles.card]}>
+                <Text style={[styles.cardText, styles.tableCell]}>{item.StudentID}</Text>
+                <Text style={[styles.cardText, styles.tableCell]}>{item.StudentName}</Text>
+                <Text style={[styles.cardText, styles.tableCell]}>{item.EventSession}</Text>
+                <Text style={[styles.cardText, styles.tableCell]}>{item.Class}</Text>
+                <Text style={[styles.cardText, styles.tableCell]}>{item.EventLocation}</Text>
+                <Text style={[styles.cardText, styles.tableCell]}>
                   {new Date(item.RegisteredDate).toLocaleDateString()}
                 </Text>
               </View>
@@ -75,56 +97,98 @@ export default function StudentsListScreen() {
           </ScrollView>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  course_container: {
+  container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F5',
   },
-  course_title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  header: {
+    paddingVertical: 20,
+    paddingHorizontal: 16,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    marginBottom: 20,
+  },
+  backButton: {
+    alignSelf: 'flex-start',
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 50,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
     marginBottom: 10,
+  },
+  backButtonText: {
+    color: '#4CAF50',
+    fontWeight: 'bold',
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
   },
   tableWrapper: {
     flex: 1,
-    width: '100%',
+    marginHorizontal: 16,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+    padding: 10,
   },
-  course_tableHeader: {
-    backgroundColor: '#357a38',
+  tableHeader: {
+    backgroundColor: 'darkgreen',
+    borderRadius: 8,
     paddingVertical: 10,
+    marginBottom: 10,
   },
   tableRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
+    alignItems: 'center',
   },
-  course_tableHeaderText: {
-    color: 'white',
+  headerText: {
+    color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
     flex: 1,
     minWidth: 100,
+    fontSize: 14,
   },
-  course_tableCell: {
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    marginVertical: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  cardText: {
     color: '#333',
-    paddingVertical: 8,
     textAlign: 'center',
     flex: 1,
     minWidth: 100,
+    fontSize: 14,
   },
-  course_tableRow: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+  verticalScrollView: {
+    maxHeight: Dimensions.get('window').height - 300,
   },
-  course_verticalScrollView: {
-    maxHeight: Dimensions.get('window').height - 200, // To ensure scrollability within available space
-  },
-  course_loading: {
+  loadingIndicator: {
     marginTop: 50,
   },
 });

@@ -1,8 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Linking, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Linking, ScrollView, TouchableOpacity,SafeAreaView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; // Import the icons you need
+import { Ionicons } from '@expo/vector-icons'; // For the back icon
+import { useNavigation } from '@react-navigation/native'; // Import the useNavigation hook
 
 const HelpAndSupportScreen = () => {
+    const navigation = useNavigation(); // Initialize the navigation hook
+
     const openEmail = (email) => {
         Linking.openURL(`mailto:${email}`);
     };
@@ -15,7 +19,13 @@ const HelpAndSupportScreen = () => {
     ];
 
     return (
+        <SafeAreaView  style={{ flex: 10 , backgroundColor: '#357a38'  } }>
         <ScrollView contentContainerStyle={styles.container}>
+            {/* Back Button */}
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                <Ionicons name="arrow-back" size={30} color="#ffffff" />
+            </TouchableOpacity>
+
             <Text style={styles.title}>Contact Us</Text>
 
             <View style={styles.contactContainer}>
@@ -51,9 +61,11 @@ const HelpAndSupportScreen = () => {
                 ))}
             </View>
         </ScrollView>
-    );
-};
+        </SafeAreaView>
 
+    );      
+
+};
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,
@@ -109,6 +121,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
         shadowOffset: { width: 0, height: 1 },
+    },
+    backButton: {
+        position: 'absolute',
+        top: 20,
+        left: 10,
+        zIndex: 1, // Ensure the back button is on top
     },
 });
 

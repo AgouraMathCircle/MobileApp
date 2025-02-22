@@ -74,8 +74,8 @@ const VolunteerDashboardScreen = ({ navigation }) => {
   }, [userName, chapterID]);
 
   return (
+    <View style={{ flex: 3}}>
     <SafeAreaView style={styles.Volunteerdb_container}>
-      <ScrollView contentContainerStyle={styles.Volunteerdb_scrollContent}>
         <View style={styles.Volunteerdb_header}>
           <View style={styles.Volunteerdb_headerRow}>
             <Text style={styles.Volunteerdb_headerText}>Welcome , {userFirstName}!</Text>
@@ -85,6 +85,7 @@ const VolunteerDashboardScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
+        <ScrollView contentContainerStyle={styles.Volunteerdb_scrollContent}>
 
         {/* Announcement Section */}
         <View style={styles.Volunteerdb_Container}>
@@ -151,6 +152,8 @@ const VolunteerDashboardScreen = ({ navigation }) => {
           )}
         </View>
       </ScrollView>
+      </SafeAreaView>
+
 
       {/* Bottom Navigation */}
       <View style={styles.Volunteerdb_bottomNav}>
@@ -160,19 +163,19 @@ const VolunteerDashboardScreen = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Documents')} style={styles.Volunteerdb_navItem}>
           <MaterialIcons name="description" size={28} color="#fff" />
-          <Text style={styles.Volunteerdb_navText}>Class Material</Text>
+          <Text style={styles.Volunteerdb_navText}>Material</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={styles.Volunteerdb_navItem}>
           <MaterialIcons name="assessment" size={28} color="#fff" />
           <Text style={styles.Volunteerdb_navText}>Timesheets</Text>
         </TouchableOpacity>
        
-        <TouchableOpacity onPress={() => navigation.navigate('User Profile', { userName, userFirstName })} style={styles.Volunteerdb_navItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('User Profile')} style={styles.Volunteerdb_navItem}>
           <MaterialIcons name="person" size={28} color="#fff" />
           <Text style={styles.Volunteerdb_navText}>Profile</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

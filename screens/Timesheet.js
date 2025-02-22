@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, TextInput, View, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Button, IconButton, Divider, Text, Snackbar } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import RNPickerSelect from 'react-native-picker-select';
 import { useRoute } from '@react-navigation/native';
 import GlobalVariable from './gobal';
-
+import { useNavigation } from '@react-navigation/native';
 import pickerSelectStyles from '../Styles/pickerSelectStyles';
+import NavigationStyles from '../Styles/NavigationStyles';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+
 
 const taskOptions = [
     { label: 'Miscellaneous Work', value: 'Miscellaneous Work' },
@@ -28,6 +32,9 @@ export default function App() {
     const userName = GlobalVariable.userName;
    const userFirstName = GlobalVariable.userFirstName;
    const chapterID = GlobalVariable.chapterID;
+   const userType = GlobalVariable.userType;
+   const navigation = useNavigation();
+
 
     const [form, setForm] = useState({
         taskName: '',
@@ -181,109 +188,184 @@ export default function App() {
     const onDismissSnackBar = () => setSnackbarVisible(false); // Dismiss Snackbar
 
     return (
-        <ScrollView style={styles.Timesheet_container}>
-            <ScrollView horizontal>
-                <View>
-                    <View style={styles.Timesheet_tableHeader}>
-                        <Text style={[styles.Timesheet_tableHeaderText, styles.Timesheet_headerNumber]}>#</Text>
-                        <Text style={styles.Timesheet_tableHeaderText}>Task</Text>
-                        <Text style={styles.Timesheet_tableHeaderText}>Date</Text>
-                        <Text style={styles.Timesheet_tableHeaderText}>Start</Text>
-                        <Text style={styles.Timesheet_tableHeaderText}>End </Text>
-                        <Text style={styles.Timesheet_tableHeaderText}>Total</Text>
-                        <Text style={styles.Timesheet_tableHeaderText}>Actions</Text>
-                    </View>
+        <View style={{ flex: 1 }}>
+            <SafeAreaView  style={{ flex: 1 }} >
+                <ScrollView style={styles.Timesheet_container}>
+                    {/* Headline and Content */}
+                    <Text style={styles.Timesheet_headline}>TimeSheet</Text>
+    
+                    <ScrollView horizontal>
                     <View>
-                        {timeEntries.length > 0 ? (
-                            timeEntries.map((entry, index) => (
-                                <View style={styles.Timesheet_tableRow} key={entry.id}>
-                                    <Text style={[styles.Timesheet_tableCell, styles.Timesheet_cellNumber]}>{index + 1}</Text>
-                                    <Text style={styles.Timesheet_tableCell}>{entry.task}</Text>
-                                    <Text style={styles.Timesheet_tableCell}>{entry.date}</Text>
-                                    <Text style={styles.Timesheet_tableCell}>{entry.startTime}</Text>
-                                    <Text style={styles.Timesheet_tableCell}>{entry.endTime}</Text>
-                                    <Text style={styles.Timesheet_tableCell}>{entry.totalHours}</Text>
-                                    <View style={styles.Timesheet_actionButtons}>
-                                        <IconButton icon="delete" onPress={() => handleDelete(entry.id)} />
+                        <View style={styles.Timesheet_tableHeader}>
+                            <Text style={[styles.Timesheet_tableHeaderText, styles.Timesheet_headerNumber]}>#</Text>
+                            <Text style={styles.Timesheet_tableHeaderText}>Task</Text>
+                            <Text style={styles.Timesheet_tableHeaderText}>Date</Text>
+                            <Text style={styles.Timesheet_tableHeaderText}>Start</Text>
+                            <Text style={styles.Timesheet_tableHeaderText}>End </Text>
+                            <Text style={styles.Timesheet_tableHeaderText}>Total</Text>
+                            <Text style={styles.Timesheet_tableHeaderText}>Actions</Text>
+                        </View>
+                        <View>
+                            {timeEntries.length > 0 ? (
+                                timeEntries.map((entry, index) => (
+                                    <View style={styles.Timesheet_tableRow} key={entry.id}>
+                                        <Text style={[styles.Timesheet_tableCell, styles.Timesheet_cellNumber]}>{index + 1}</Text>
+                                        <Text style={styles.Timesheet_tableCell}>{entry.task}</Text>
+                                        <Text style={styles.Timesheet_tableCell}>{entry.date}</Text>
+                                        <Text style={styles.Timesheet_tableCell}>{entry.startTime}</Text>
+                                        <Text style={styles.Timesheet_tableCell}>{entry.endTime}</Text>
+                                        <Text style={styles.Timesheet_tableCell}>{entry.totalHours}</Text>
+                                        <View style={styles.Timesheet_actionButtons}>
+                                            <IconButton icon="delete" onPress={() => handleDelete(entry.id)} />
+                                        </View>
                                     </View>
-                                </View>
-                            ))
-                        ) : (
-                            <Text>No time entries available</Text>
-                        )}
+                                ))
+                            ) : (
+                                <Text>No time entries available</Text>
+                            )}
+                        </View>
                     </View>
-                </View>
-            </ScrollView>
-            <Text style={styles.Timesheet_formHeader}>Add/Update Time Sheet</Text>
-            <Divider />
-            <View style={styles.pickerContainer}>
-                <Text>Task Name:</Text>
-                <RNPickerSelect
-                    onValueChange={(itemValue) => setForm({ ...form, taskName: itemValue })}
-                    items={taskOptions}
-                    style={pickerSelectStyles}
-                    value={form.taskName}
-                    placeholder={{ label: 'Select Task Name', value: null }}
-                />
-            </View>
-            <Button mode="outlined" onPress={() => setShowDatePicker(true)} style={styles.Timesheet_button}>
-                <Text style={styles.Timesheet_buttonText}>
-                    Select Volunteer Date: {form.volunteerDate.toDateString()}
-                </Text>
-            </Button>
-            {showDatePicker && (
-                <DateTimePicker
-                    value={form.volunteerDate}
-                    mode="date"
-                    display="default"
-                    onChange={(event, selectedDate) => {
-                        setShowDatePicker(false);
-                        setForm({ ...form, volunteerDate: selectedDate || form.volunteerDate });
-                    }}
-                />
-            )}
-            <View style={styles.pickerContainer}>
-                <Text>Start Time:</Text>
-                <RNPickerSelect
-                    onValueChange={(itemValue) => setForm({ ...form, startTime: itemValue })}
-                    items={timeOptions}
-                    style={pickerSelectStyles}
-                    value={form.startTime}
-                    placeholder={{ label: 'Select Start Time', value: null }}
-                />
-            </View>
-            <View style={styles.pickerContainer}>
-                <Text>End Time:</Text>
-                <RNPickerSelect
-                    onValueChange={(itemValue) => setForm({ ...form, endTime: itemValue })}
-                    items={timeOptions}
-                    style={pickerSelectStyles}
-                    value={form.endTime}
-                    placeholder={{ label: 'Select End Time', value: null }}
-                />
-            </View>
-            <TextInput
-                style={styles.Timesheet_input}
-                placeholder="Task Details"
-                value={form.taskDetails}
-                onChangeText={(text) => setForm({ ...form, taskDetails: text })}
-            />
-            <Button mode="contained" onPress={handleAddUpdate} style={styles.Timesheet_button}>
-                <Text style={styles.Timesheet_buttonText}>Submit</Text>
-            </Button>
-            
-            {/* Snackbar for success message */}
-            <Snackbar
-                visible={snackbarVisible}
-                onDismiss={onDismissSnackBar}
-                duration={3000}
-                action={{
-                    label: 'Dismiss',
-                    onPress: onDismissSnackBar,
-                }}>
-                {snackbarMessage}
-            </Snackbar>
-        </ScrollView>
+                </ScrollView>
+    
+                    {/* Time Entry Form */}
+                    <Text style={styles.Timesheet_formHeader}>Add/Update Time Sheet</Text>
+                    <Divider />
+                    {/* Picker and Form Fields */}
+                    <Button mode="outlined" onPress={() => setShowDatePicker(true)} style={styles.Timesheet_button}>
+                        <Text style={styles.Timesheet_buttonText}>
+                            Select Volunteer Date: {form.volunteerDate.toDateString()}
+                        </Text>
+                    </Button>
+    
+                    {showDatePicker && (
+                        <DateTimePicker
+                            value={form.volunteerDate}
+                            mode="date"
+                            display="default"
+                            onChange={(event, selectedDate) => {
+                                setShowDatePicker(false);
+                                setForm({ ...form, volunteerDate: selectedDate || form.volunteerDate });
+                            }}
+                        />
+                    )}
+    
+                    <View style={styles.pickerContainer}>
+                        <Text>Start Time:</Text>
+                        <RNPickerSelect
+                            onValueChange={(itemValue) => setForm({ ...form, startTime: itemValue })}
+                            items={timeOptions}
+                            style={pickerSelectStyles}
+                            value={form.startTime}
+                            placeholder={{ label: 'Select Start Time', value: null }}
+                        />
+                    </View>
+    
+                    <View style={styles.pickerContainer}>
+                        <Text>End Time:</Text>
+                        <RNPickerSelect
+                            onValueChange={(itemValue) => setForm({ ...form, endTime: itemValue })}
+                            items={timeOptions}
+                            style={pickerSelectStyles}
+                            value={form.endTime}
+                            placeholder={{ label: 'Select End Time', value: null }}
+                        />
+                    </View>
+    
+                    <TextInput
+                        style={styles.Timesheet_input}
+                        placeholder="Task Details"
+                        value={form.taskDetails}
+                        onChangeText={(text) => setForm({ ...form, taskDetails: text })}
+                    />
+    
+                    <Button mode="contained" onPress={handleAddUpdate} style={styles.Timesheet_button}>
+                        <Text style={styles.Timesheet_buttonText}>Submit</Text>
+                    </Button>
+                </ScrollView>
+    
+                {/* Snackbar for success message */}
+                <Snackbar
+                    visible={snackbarVisible}
+                    onDismiss={onDismissSnackBar}
+                    duration={3000}
+                    action={{
+                        label: 'Dismiss',
+                        onPress: onDismissSnackBar,
+                    }}>
+                    {snackbarMessage}
+                </Snackbar>
+            </SafeAreaView>
+    
+          {/* Bottom Navigation */}
+<View style={NavigationStyles.bottomNav}>
+  <TouchableOpacity style={NavigationStyles.navItem} onPress={() => {
+    if (GlobalVariable.userType === 'S') {
+      navigation.navigate('Student Dashboard');
+    } else if (GlobalVariable.userType === 'V') {
+      navigation.navigate('Volunteer Dashboard');
+    } else if (GlobalVariable.userType === 'I') {
+      navigation.navigate('Instructor Dashboard');
+    } else if (GlobalVariable.userType === 'A') {
+      navigation.navigate('Administrator Dashboard');
+    } else if (GlobalVariable.userType === 'C') {
+      navigation.navigate('Coordinator Dashboard');
+    } else {
+      console.error('Unknown usertype:', GlobalVariable.userType);
+    }
+  }}>
+    <MaterialIcons name="home" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Home</Text>
+  </TouchableOpacity>
+
+  {/* Common Class Material option */}
+  <TouchableOpacity onPress={() => navigation.navigate('Documents', { userName })} style={NavigationStyles.navItem}>
+    <MaterialIcons name="description" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Material</Text>
+  </TouchableOpacity> {/* Timesheet Button - For Volunteers, Administrators, Instructors, and Coordinators */}
+  {(userType === 'V' || userType === 'A' || userType === 'I' || userType === 'C') && (
+    <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={NavigationStyles.navItem}>
+      <MaterialIcons name="assessment" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Timesheets</Text>
+    </TouchableOpacity>
+  )}
+
+  {/* Report Card Button - For Admin, Instructor, and Student */}
+  {(userType === 'A' || userType === 'S' || userType === 'I' || userType === 'C') && (
+    <TouchableOpacity onPress={() => {
+      if (userType === 'A' || userType === 'I') {
+        navigation.navigate('Admin ReportCard', { userName });
+      } else if (userType === 'C') {
+        navigation.navigate('Admin ReportCard', { userName });
+      } else {
+        navigation.navigate('Report Card');
+      }
+    }} style={NavigationStyles.navItem}>
+      <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Scores</Text>
+    </TouchableOpacity>
+  )}
+
+
+  {/* Messages Button - Common for all user types */}
+  {userType !== 'V' && (
+    <TouchableOpacity onPress={() => navigation.navigate('Message Center', { userName })} style={NavigationStyles.navItem}>
+      <MaterialIcons name="mail-outline" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Messages</Text>
+    </TouchableOpacity>
+  )}
+  {/* Profile Button - Common for all user types */}
+  <TouchableOpacity onPress={() => {
+    if (GlobalVariable.userType === 'S') {
+      navigation.navigate('Profile');
+    } else {
+      navigation.navigate('User Profile', { userName, userFirstName });
+    }
+  }} style={NavigationStyles.navItem}>
+    <MaterialIcons name="person" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Profile</Text>
+  </TouchableOpacity>
+</View>
+        </View>
     );
 }
 
@@ -296,7 +378,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 8,
-        backgroundColor: '#43A047',
+        backgroundColor: 'darkgreen',
         borderRadius: 10,
         padding: 8,
     },
@@ -341,17 +423,24 @@ const styles = StyleSheet.create({
     },
     Timesheet_input: {
         borderWidth: 1,
-        borderColor: '#357a38',
+        borderColor: 'darkgreen',
         padding: 10,
         borderRadius: 5,
         marginBottom: 15,
+    },
+    Timesheet_headline: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginVertical: 20,
+        color: '#357a38',
     },
     pickerContainer: {
         marginVertical: 10,
     },
     Timesheet_button: {
         marginVertical: 10,
-        backgroundColor: '#357a38',
+        backgroundColor: 'darkgreen',
         borderColor: '#fff',
     },
     Timesheet_buttonText: {

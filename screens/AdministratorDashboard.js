@@ -66,6 +66,7 @@ const InstructordbDashboardScreen = ({ navigation }) => {
   }, [userName, chapterID]);
 
   return (
+    <View style={{ flex: 3}}>
     <SafeAreaView style={styles.Studentdb_container}>
       <ScrollView contentContainerStyle={styles.Studentdb_scrollContent}>
         <View style={styles.Studentdb_header}>
@@ -151,6 +152,7 @@ const InstructordbDashboardScreen = ({ navigation }) => {
           )}
         </View>
       </ScrollView>
+      </SafeAreaView>
 
       {/* Bottom Navigation */}
 <View style={styles.Studentdb_bottomNav}>
@@ -160,7 +162,7 @@ const InstructordbDashboardScreen = ({ navigation }) => {
   </TouchableOpacity>
   <TouchableOpacity onPress={() => navigation.navigate('Admin ReportCard', { userName })} style={styles.Studentdb_navItem}>
     <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
-    <Text style={styles.Studentdb_navText}>Report Card</Text>
+    <Text style={styles.Studentdb_navText}>Score</Text>
   </TouchableOpacity>
   <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={styles.Studentdb_navItem}>
     <MaterialIcons name="assessment" size={28} color="#fff" />
@@ -176,7 +178,8 @@ const InstructordbDashboardScreen = ({ navigation }) => {
   </TouchableOpacity>
 </View>
 
-    </SafeAreaView>
+    
+    </View>
   );
 };
 
@@ -191,7 +194,7 @@ Studentdb_scrollContent: {
 },
 Studentdb_header: {
   padding: 16,
-  backgroundColor: '#43A047',
+  backgroundColor: 'darkgreen',
   borderRadius: 10,
   marginBottom: 16,
   shadowColor: '#000',
@@ -277,7 +280,7 @@ Studentdb_tableHeader: {
   flexDirection: 'row',
   justifyContent: 'space-between',
   marginBottom: 8,
-  backgroundColor: '#43A047',
+  backgroundColor: 'darkgreen',
   borderRadius: 10,
   padding: 8,
 },
@@ -315,12 +318,13 @@ Studentdb_bottomNav: {
   flexDirection: 'row',
   justifyContent: 'space-around',
   padding: 10,
-  backgroundColor: '#43A047',
+  backgroundColor: 'darkgreen',
   borderTopWidth: 1,
   borderTopColor: '#e0e0e0',
 },
 Studentdb_navItem: {
   alignItems: 'center',
+
 },
 Studentdb_navText: {
   fontSize: 12,

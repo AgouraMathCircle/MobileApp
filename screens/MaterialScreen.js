@@ -1,15 +1,23 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { View, Text, FlatList, TextInput, TouchableOpacity, Image, ActivityIndicator, Linking, ScrollView, StyleSheet } from 'react-native';
+import { 
+  View, Text, FlatList, TextInput, TouchableOpacity, Image, 
+  ActivityIndicator, Linking, ScrollView, StyleSheet, Dimensions, SafeAreaView 
+} from 'react-native';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import pdfIcon from '../assets/pdf.png';
 import videoIcon from '../assets/video.png';
 import GlobalVariable from './gobal';
+import NavigationStyles from '../Styles/NavigationStyles';
 
-const ClassMaterialScreen = () => {
+
+
+const ClassMaterialScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [classMaterials, setClassMaterials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const userName = GlobalVariable.userName;
+  const userType = GlobalVariable.userType;
 
   const fetchClassMaterialsAPI = () => {
     return new Promise(async (resolve, reject) => {
@@ -57,6 +65,30 @@ const ClassMaterialScreen = () => {
         setLoading(false);
       });
   }, [userName]);
+  
+  const handlePublish = (docID) => {
+    const url = GlobalVariable.AMCApiurl +'PublishDocument';
+    const headers = {
+      'Accept': '*/*',
+      'Content-Type': 'application/json',
+    };
+    const body = JSON.stringify({
+      docID: docID,
+    });
+  
+    fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: body,
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  };
 
   const handleOpenYouTube = useCallback((url) => {
     Linking.openURL(url).catch((err) => console.error('Failed to open URL:', err));
@@ -99,11 +131,22 @@ const ClassMaterialScreen = () => {
       <Text style={styles.cell}>{formatText(item.Topics)}</Text>
       <Text style={styles.cell}>{formatText(item.Description)}</Text>
       <Text style={styles.cell}>{new Date(item.InsertDate).toLocaleDateString()}</Text>
+      <Text style={styles.cell}>
+  {item.DocumentID === 0 ? 'published' :
+    item.DocumentID === 1 ? (
+      <TouchableOpacity style={styles.button} onPress={() => handlePublish(item.DocumentID)}>
+        <Text style={styles.buttonText}>Publish</Text>
+      </TouchableOpacity>
+    ) : formatText(item.DocumentID)
+  }
+</Text>
+
     </View>
   ), [handleOpenPDF, handleOpenYouTube]);
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 3}}>
+    <SafeAreaView style={styles.container}> 
       <View style={styles.header}>
         <Text style={styles.title}>Class Material</Text>
         <TextInput
@@ -113,7 +156,7 @@ const ClassMaterialScreen = () => {
           onChangeText={(text) => setSearchQuery(text)}
         />
       </View>
-
+  
       {loading ? (
         <ActivityIndicator size="large" color="#fff" />
       ) : error ? (
@@ -128,21 +171,95 @@ const ClassMaterialScreen = () => {
               <Text style={styles.headerCell}>Topics</Text>
               <Text style={styles.headerCell}>Description</Text>
               <Text style={styles.headerCell}>Date</Text>
+              <Text style={styles.headerCell}>Status</Text>
             </View>
-
+  
             <FlatList
               data={filteredData}
               renderItem={renderItem}
               keyExtractor={(item) => item.mDocID.toString()}
-              initialNumToRender={10} // Controls initial batch of items rendered
-              windowSize={5} // Controls amount of items to render in advance
+              initialNumToRender={10}
+              windowSize={5}
               ListEmptyComponent={<Text style={styles.noResultText}>No Results Found</Text>}
             />
           </View>
         </ScrollView>
       )}
-    </View>
+   </SafeAreaView>
+  {/* Bottom Navigation */}
+  <View style={NavigationStyles.bottomNav}>
+  <TouchableOpacity style={NavigationStyles.navItem} onPress={() => {
+    if (GlobalVariable.userType === 'S') {
+      navigation.navigate('Student Dashboard');
+    } else if (GlobalVariable.userType === 'V') {
+      navigation.navigate('Volunteer Dashboard');
+    } else if (GlobalVariable.userType === 'I') {
+      navigation.navigate('Instructor Dashboard');
+    } else if (GlobalVariable.userType === 'A') {
+      navigation.navigate('Administrator Dashboard');
+    } else if (GlobalVariable.userType === 'C') {
+      navigation.navigate('Coordinator Dashboard');
+    } else {
+      console.error('Unknown usertype:', GlobalVariable.userType);
+    }
+  }}>
+    <MaterialIcons name="home" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Home</Text>
+  </TouchableOpacity>
+
+  {/* Common Class Material option */}
+  <TouchableOpacity onPress={() => navigation.navigate('Documents', { userName })} style={NavigationStyles.navItem}>
+    <MaterialIcons name="description" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Material</Text>
+  </TouchableOpacity> {/* Timesheet Button - For Volunteers, Administrators, Instructors, and Coordinators */}
+  {(userType === 'V' || userType === 'A' || userType === 'I' || userType === 'C') && (
+    <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={NavigationStyles.navItem}>
+      <MaterialIcons name="assessment" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Timesheets</Text>
+    </TouchableOpacity>
+  )}
+
+  {/* Report Card Button - For Admin, Instructor, and Student */}
+  {(userType === 'A' || userType === 'S' || userType === 'I' || userType === 'C') && (
+    <TouchableOpacity onPress={() => {
+      if (userType === 'A' || userType === 'I') {
+        navigation.navigate('Admin ReportCard', { userName });
+      } else if (userType === 'C') {
+        navigation.navigate('Admin ReportCard', { userName });
+      } else {
+        navigation.navigate('Report Card');
+      }
+    }} style={NavigationStyles.navItem}>
+      <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Scores</Text>
+    </TouchableOpacity>
+  )}
+
+
+  {/* Messages Button - Common for all user types */}
+  {userType !== 'V' && (
+    <TouchableOpacity onPress={() => navigation.navigate('Message Center', { userName })} style={NavigationStyles.navItem}>
+      <MaterialIcons name="mail-outline" size={28} color="#fff" />
+      <Text style={NavigationStyles.navText}>Messages</Text>
+    </TouchableOpacity>
+  )}
+  {/* Profile Button - Common for all user types */}
+  <TouchableOpacity onPress={() => {
+    if (GlobalVariable.userType === 'S') {
+      navigation.navigate('Profile');
+    } else {
+      navigation.navigate('User Profile', { userName, userFirstName });
+    }
+  }} style={NavigationStyles.navItem}>
+    <MaterialIcons name="person" size={28} color="#fff" />
+    <Text style={NavigationStyles.navText}>Profile</Text>
+  </TouchableOpacity>
+</View>
+
+    </View> 
   );
+  
+
 };
 
 // Styles
@@ -150,10 +267,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f4f4f4',
-    paddingBottom: 20,
+    
   },
   header: {
-    backgroundColor: '#357a38',
+    backgroundColor: 'darkgreen',
     padding: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
@@ -184,7 +301,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
   },
   headerRow: {
-    backgroundColor: '#357a38',
+    backgroundColor: 'darkgreen',
     paddingVertical: 12,
   },
   headerCell: {
@@ -201,7 +318,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     color: '#333',
     minWidth: 100,
-    whiteSpace: 'pre-line', // Ensures newlines from `\n` are rendered.
+    whiteSpace: 'pre-line',
   },
   iconContainer: {
     flexDirection: 'row',
@@ -219,6 +336,17 @@ const styles = StyleSheet.create({
     color: '#333',
     marginTop: 20,
   },
+  button: {
+    backgroundColor: '#007bff', // Example background color
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+  }
+  
 });
 
 export default ClassMaterialScreen;
