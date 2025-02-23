@@ -113,6 +113,7 @@ const ClassMaterialScreen = ({ navigation }) => {
   };
 
   const renderItem = useCallback(({ item }) => (
+    
     <View style={styles.row}>
       <View style={styles.iconContainer}>
         {item.mDocName && (
@@ -131,15 +132,17 @@ const ClassMaterialScreen = ({ navigation }) => {
       <Text style={styles.cell}>{formatText(item.Topics)}</Text>
       <Text style={styles.cell}>{formatText(item.Description)}</Text>
       <Text style={styles.cell}>{new Date(item.InsertDate).toLocaleDateString()}</Text>
+      {(userType === 'I' || userType === 'c' || userType === 'A')&&(
       <Text style={styles.cell}>
-  {item.DocumentID === 0 ? 'published' :
-    item.DocumentID === 1 ? (
+  {item.Status === 'Y' ? 'published' :
+    item.Status === 'N' ? (
       <TouchableOpacity style={styles.button} onPress={() => handlePublish(item.DocumentID)}>
         <Text style={styles.buttonText}>Publish</Text>
       </TouchableOpacity>
-    ) : formatText(item.DocumentID)
+    ) : formatText(item.Status)
   }
 </Text>
+      )}
 
     </View>
   ), [handleOpenPDF, handleOpenYouTube]);
@@ -171,7 +174,10 @@ const ClassMaterialScreen = ({ navigation }) => {
               <Text style={styles.headerCell}>Topics</Text>
               <Text style={styles.headerCell}>Description</Text>
               <Text style={styles.headerCell}>Date</Text>
+              {(userType === 'I' || userType === 'c' || userType === 'A')&&(
+
               <Text style={styles.headerCell}>Status</Text>
+              )}
             </View>
   
             <FlatList
