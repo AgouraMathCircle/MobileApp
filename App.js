@@ -62,7 +62,6 @@ export default function App() {
         <Stack.Screen name='Timesheet' component={Timesheetscreen} options={{ headerShown: false}} />
         <Stack.Screen name='Profile' component={Studentup} options={{ headerShown: false}}/>
         <Stack.Screen name='Admin ReportCard' component={AdminReportCard} options={{ headerShown: false}} />
-        <Stack.Screen name='Documentpublishing' component={DocumentPublishing} options={{ headerShown: false}} />
 
       </Stack.Navigator>
     </NavigationContainer>

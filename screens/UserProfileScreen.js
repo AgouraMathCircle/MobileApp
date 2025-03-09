@@ -51,13 +51,7 @@ const ProfileScreen = () => {
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => navigation.navigate('Documentpublishing')} style={styles.UserProfileScreen_menuItem}>
-                        <MaterialIcons name="book" size={24} color="#66BB6A" />
-                        <View style={styles.UserProfileScreen_menuTextContainer}>
-                            <Text style={styles.UserProfileScreen_menuTitle}>Document publishing</Text>
-                            <Text style={styles.UserProfileScreen_menuSubtitle}>Document publishing</Text>
-                        </View>
-                    </TouchableOpacity>
+                
 
                 <TouchableOpacity onPress={() => navigation.navigate('Profileinformation', { userName })} style={styles.UserProfileScreen_menuItem}>
                     <MaterialIcons name="person-outline" size={24} color="#66BB6A" />
