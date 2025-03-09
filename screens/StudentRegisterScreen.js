@@ -33,8 +33,8 @@ const StudentRegistration = ({ navigation }) => {
   const [error, setError] = useState(null);
 
   const usernameOptions = [
-    { label: 'Student Username', value: 'student' },
-    { label: 'Parent Username', value: 'parent' }
+    { label: 'Student Username', value: pEmail },
+    { label: 'Parent Username', value: sEmail }
   ];
 
   const gradeSelect = [

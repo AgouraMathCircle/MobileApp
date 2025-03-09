@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 12.6.1",
+    "version": ">= 15.0.14",
     "appVersionSource": "remote"
   },
   "build": {
@@ -8,22 +8,14 @@
       "developmentClient": true,
       "distribution": "internal"
     },
-   "preview": {
-      "android": {
-        "buildType": "apk"
-      }
+    "preview": {
+      "distribution": "internal"
     },
     "production": {
       "autoIncrement": true
     }
   },
   "submit": {
-    "production": {
-      "ios":{
-        "appleId": "agouramathcircle@gmail.com",
-        "ascAppId": "1438597363",
-        "appleTeamId": "TLWF42339A"
-      }
-    }
+    "production": {}
   }
 }
