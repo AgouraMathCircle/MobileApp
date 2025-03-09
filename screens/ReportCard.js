@@ -291,17 +291,19 @@ const ReportCard = ({ navigation }) => {
       <Text style={NavigationStyles.navText}>Messages</Text>
     </TouchableOpacity>
   )}
-  {/* Profile Button - Common for all user types */}
-  <TouchableOpacity onPress={() => {
-    if (GlobalVariable.userType === 'S') {
-      navigation.navigate('Profile');
-    } else {
-      navigation.navigate('User Profile', { userName, userFirstName });
-    }
-  }} style={NavigationStyles.navItem}>
-    <MaterialIcons name="person" size={28} color="#fff" />
-    <Text style={NavigationStyles.navText}>Profile</Text>
-  </TouchableOpacity>
+    {/* Profile Button - Common for all user types */}
+    <TouchableOpacity onPress={() => {
+  if (GlobalVariable.userType === 'S') {
+    navigation.navigate('Profile');
+  } else {
+    // Ensure userFirstName is defined
+    const userFirstName = GlobalVariable.userFirstName || 'DefaultFirstName';
+    navigation.navigate('User Profile', { userName, userFirstName });
+  }
+}} style={NavigationStyles.navItem}>
+  <MaterialIcons name="person" size={28} color="#fff" />
+  <Text style={NavigationStyles.navText}>Profile</Text>
+</TouchableOpacity>
 </View>
     </View>
   );
