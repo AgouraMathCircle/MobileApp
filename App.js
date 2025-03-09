@@ -27,7 +27,6 @@ import CoordinatorDashboard from './screens/CoordinatorDashboard'
 import Timesheetscreen from './screens/Timesheet'
 import AdminReportCard from './screens/AdminReportCard'
 import StudentRegistration from './screens/StudentRegisterScreen';
-import DocumentPublishing from './screens/Documentationpublish';
 
 const Stack = createNativeStackNavigator();
 
