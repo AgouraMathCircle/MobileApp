@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Android",
+        "program": "${AMCMobileApp2.1}/screens/LoginScreen.js",
+
+        "request": "launch",
+        "type": "reactnative",
+        "platform": "android"
+      },
+      {
+        "name": "Debug iOS",
+        "program": "${AMCMobileApp2.1}/screens/LoginScreen.js",
+        "request": "launch",
+        "type": "reactnative",
+        "platform": "ios"
+      }
+    ]
+  }
