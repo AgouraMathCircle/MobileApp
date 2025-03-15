@@ -6,9 +6,7 @@ import GlobalVariable from './gobal';
 import { MaterialIcons } from 'react-native-vector-icons';
 import NavigationStyles from '../Styles/NavigationStyles';
 import { NavigationContainer } from '@react-navigation/native';
-
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 
 const ReportCard = ({ navigation }) => {
     const [homeworkScore, setHomeworkScore] = useState('');
@@ -27,7 +25,6 @@ const ReportCard = ({ navigation }) => {
     const usertype = GlobalVariable.userType;
     const enableScoreUpdate = GlobalVariable.enableScoreUpdate;
     const userType = GlobalVariable.userType;
-
 
     useEffect(() => {
         fetchReportCardData();
@@ -139,181 +136,169 @@ const ReportCard = ({ navigation }) => {
     };
 
     return (
- <View style={{ flex: 3}}>
-  <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollContent} keyboardShouldPersistTaps="handled">
-        <View style={styles.reportCardContainer}>
-          <Text style={styles.title}>Report Card</Text>
-          <View style={styles.line} />
+        <View style={{ flex: 3 }}>
+            <SafeAreaView style={styles.container}>
+                <ScrollView style={styles.scrollContent} keyboardShouldPersistTaps="handled">
+                    <View style={styles.reportCardContainer}>
+                        <Text style={styles.title}>Report Card</Text>
+                        <View style={styles.line} />
 
-         
-              <TouchableOpacity style={styles.button} onPress={() => setShowInputFields(!showInputFields)}>
-                <Text style={styles.buttonText}>
-                  {showInputFields ? "Hide Input Fields" : "Update Score"}
-                </Text>
-              </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={() => setShowInputFields(!showInputFields)}>
+                            <Text style={styles.buttonText}>
+                                {showInputFields ? "Hide Input Fields" : "Update Score"}
+                            </Text>
+                        </TouchableOpacity>
 
-              {message.text ? (
-                <Text style={message.type === 'success' ? styles.successText : styles.errorText}>
-                  {message.text}
-                </Text>
-              ) : null}
-         
-          {showInputFields && (
-            <>
-              <RNPickerSelect
-                placeholder={{ label: "--Student Name--", value: null }}
-                items={students}
-                onValueChange={setSelectedStudent}
-                style={pickerSelectStyles}
-              />
-              <RNPickerSelect
-                placeholder={{ label: "--Session--", value: null }}
-                items={sessions}
-                onValueChange={setSession}
-                style={pickerSelectStyles}
-              />
+                        {message.text ? (
+                            <Text style={message.type === 'success' ? styles.successText : styles.errorText}>
+                                {message.text}
+                            </Text>
+                        ) : null}
 
-              <TextInput
-                style={styles.input}
-                placeholder="Quiz Score out of 5"
-                value={quizScore}
-                onChangeText={(value) => handleScoreChange(setQuizScore, value, 5)}
-                keyboardType="numeric"
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Classwork Score out of 20"
-                value={classworkScore}
-                onChangeText={(value) => handleScoreChange(setClassworkScore, value, 20)}
-                keyboardType="numeric"
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Homework Score out of 10"
-                value={homeworkScore}
-                onChangeText={(value) => handleScoreChange(setHomeworkScore, value, 10)}
-                keyboardType="numeric"
-              />
+                        {showInputFields && (
+                            <>
+                                <RNPickerSelect
+                                    placeholder={{ label: "--Student Name--", value: null }}
+                                    items={students}
+                                    onValueChange={setSelectedStudent}
+                                    style={pickerSelectStyles}
+                                />
+                                <RNPickerSelect
+                                    placeholder={{ label: "--Session--", value: null }}
+                                    items={sessions}
+                                    onValueChange={setSession}
+                                    style={pickerSelectStyles}
+                                />
 
-              <TouchableOpacity style={styles.button} onPress={addRecord}>
-                <Text style={styles.buttonText}>Update Score</Text>
-              </TouchableOpacity>
-            </>
-          )}
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Quiz Score out of 5"
+                                    value={quizScore}
+                                    onChangeText={(value) => handleScoreChange(setQuizScore, value, 5)}
+                                    keyboardType="numeric"
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Classwork Score out of 20"
+                                    value={classworkScore}
+                                    onChangeText={(value) => handleScoreChange(setClassworkScore, value, 20)}
+                                    keyboardType="numeric"
+                                />
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Homework Score out of 10"
+                                    value={homeworkScore}
+                                    onChangeText={(value) => handleScoreChange(setHomeworkScore, value, 10)}
+                                    keyboardType="numeric"
+                                />
 
-          <ScrollView horizontal>
-            <View style={styles.tableContainer}>
-              <View style={styles.tableHeader}>
-                {["Name", "Semester", "Exam Type", "Total Score", "Your Score", "Exam Date"].map(header => (
-                  <Text key={header} style={styles.tableHeaderText}>{header}</Text>
-                ))}
-              </View>
-              <FlatList
-                data={records}
-                renderItem={({ item, index }) => (
-                  <View style={[styles.tableRow, index % 2 ? styles.oddRow : styles.evenRow]}>
-                    <Text style={styles.tableCell}>{formatText(item.StudentName)}</Text>
-                    <Text style={styles.tableCell}>{formatText(item.Semester)}</Text>
-                    <Text style={styles.tableCell}>{formatText(item.ExamType)}</Text>
-                    <Text style={styles.tableCell}>{formatText(item.TotalCredit)}</Text>
-                    <Text style={styles.tableCell}>{formatText(item.ReceivedCredit)}</Text>
-                    <Text style={styles.tableCell}>{formatText(item.ExamDate)}</Text>
-                  </View>
+                                <TouchableOpacity style={styles.button} onPress={addRecord}>
+                                    <Text style={styles.buttonText}>Update Score</Text>
+                                </TouchableOpacity>
+                            </>
+                        )}
+
+                        <ScrollView horizontal>
+                            <View style={styles.tableContainer}>
+                                <View style={styles.tableHeader}>
+                                    {["Name", "Semester", "Exam Type", "Total Score", "Your Score", "Exam Date"].map(header => (
+                                        <Text key={header} style={styles.tableHeaderText}>{header}</Text>
+                                    ))}
+                                </View>
+                                <FlatList
+                                    data={records}
+                                    renderItem={({ item, index }) => (
+                                        <View style={[styles.tableRow, index % 2 ? styles.oddRow : styles.evenRow]}>
+                                            <Text style={styles.tableCell}>{formatText(item.StudentName)}</Text>
+                                            <Text style={styles.tableCell}>{formatText(item.Semester)}</Text>
+                                            <Text style={styles.tableCell}>{formatText(item.ExamType)}</Text>
+                                            <Text style={styles.tableCell}>{formatText(item.TotalCredit)}</Text>
+                                            <Text style={styles.tableCell}>{formatText(item.ReceivedCredit)}</Text>
+                                            <Text style={styles.tableCell}>{formatText(item.ExamDate)}</Text>
+                                        </View>
+                                    )}
+                                    keyExtractor={(item, index) => index.toString()}
+                                />
+                            </View>
+                        </ScrollView>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+
+            {/* Bottom Navigation */}
+            <View style={NavigationStyles.bottomNav}>
+                <TouchableOpacity style={NavigationStyles.navItem} onPress={() => {
+                    if (GlobalVariable.userType === 'S') {
+                        navigation.navigate('Student Dashboard');
+                    } else if (GlobalVariable.userType === 'V') {
+                        navigation.navigate('Volunteer Dashboard');
+                    } else if (GlobalVariable.userType === 'I') {
+                        navigation.navigate('Instructor Dashboard');
+                    } else if (GlobalVariable.userType === 'A') {
+                        navigation.navigate('Administrator Dashboard');
+                    } else if (GlobalVariable.userType === 'C') {
+                        navigation.navigate('Coordinator Dashboard');
+                    } else {
+                        console.error('Unknown usertype:', GlobalVariable.userType);
+                    }
+                }}>
+                    <MaterialIcons name="home" size={28} color="#fff" />
+                    <Text style={NavigationStyles.navText}>Home</Text>
+                </TouchableOpacity>
+
+                {/* Common Class Material option */}
+                <TouchableOpacity onPress={() => navigation.navigate('Documents', { userName })} style={NavigationStyles.navItem}>
+                    <MaterialIcons name="description" size={28} color="#fff" />
+                    <Text style={NavigationStyles.navText}>Material</Text>
+                </TouchableOpacity>
+
+                {/* Timesheet Button - For Volunteers, Administrators, Instructors, and Coordinators */}
+                {(userType === 'V' || userType === 'A' || userType === 'I' || userType === 'C') && (
+                    <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={NavigationStyles.navItem}>
+                        <MaterialIcons name="assessment" size={28} color="#fff" />
+                        <Text style={NavigationStyles.navText}>Timesheets</Text>
+                    </TouchableOpacity>
                 )}
-                keyExtractor={(item, index) => index.toString()}
-              />
+
+                {/* Report Card Button - For Admin, Instructor, and Student */}
+                {(userType === 'A' || userType === 'S' || userType === 'I' || userType === 'C') && (
+                    <TouchableOpacity onPress={() => {
+                        if (userType === 'A' || userType === 'I') {
+                            navigation.navigate('Admin ReportCard', { userName });
+                        } else if (userType === 'C') {
+                            navigation.navigate('Admin ReportCard', { userName });
+                        } else {
+                            navigation.navigate('Report Card');
+                        }
+                    }} style={NavigationStyles.navItem}>
+                        <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
+                        <Text style={NavigationStyles.navText}>Scores</Text>
+                    </TouchableOpacity>
+                )}
+
+                {/* Messages Button - Common for all user types */}
+                {userType !== 'V' && (
+                    <TouchableOpacity onPress={() => navigation.navigate('Message Center', { userName })} style={NavigationStyles.navItem}>
+                        <MaterialIcons name="mail-outline" size={28} color="#fff" />
+                        <Text style={NavigationStyles.navText}>Messages</Text>
+                    </TouchableOpacity>
+                )}
+
+                {/* Profile Button - Common for all user types */}
+                <TouchableOpacity onPress={() => {
+                    if (GlobalVariable.userType === 'S') {
+                        navigation.navigate('Profile');
+                    } else {
+                        navigation.navigate('User Profile', { userName });
+                    }
+                }} style={NavigationStyles.navItem}>
+                    <MaterialIcons name="person" size={28} color="#fff" />
+                    <Text style={NavigationStyles.navText}>Profile</Text>
+                </TouchableOpacity>
             </View>
-          </ScrollView>
         </View>
-      </ScrollView>
-      </SafeAreaView>
-
-      {/* Bottom Navigation */}
-<View style={NavigationStyles.bottomNav}>
-  <TouchableOpacity style={NavigationStyles.navItem} onPress={() => {
-    if (GlobalVariable.userType === 'S') {
-      navigation.navigate('Student Dashboard');
-    } else if (GlobalVariable.userType === 'V') {
-      navigation.navigate('Volunteer Dashboard');
-    } else if (GlobalVariable.userType === 'I') {
-      navigation.navigate('Instructor Dashboard');
-    } else if (GlobalVariable.userType === 'A') {
-      navigation.navigate('Administrator Dashboard');
-    } else if (GlobalVariable.userType === 'C') {
-      navigation.navigate('Coordinator Dashboard');
-    } else {
-      console.error('Unknown usertype:', GlobalVariable.userType);
-    }
-  }}>
-    <MaterialIcons name="home" size={28} color="#fff" />
-    <Text style={NavigationStyles.navText}>Home</Text>
-  </TouchableOpacity>
-
-  {/* Common Class Material option */}
-  <TouchableOpacity onPress={() => navigation.navigate('Documents', { userName })} style={NavigationStyles.navItem}>
-    <MaterialIcons name="description" size={28} color="#fff" />
-    <Text style={NavigationStyles.navText}>Material</Text>
-  </TouchableOpacity> {/* Timesheet Button - For Volunteers, Administrators, Instructors, and Coordinators */}
-  {(userType === 'V' || userType === 'A' || userType === 'I' || userType === 'C') && (
-    <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={NavigationStyles.navItem}>
-      <MaterialIcons name="assessment" size={28} color="#fff" />
-      <Text style={NavigationStyles.navText}>Timesheets</Text>
-    </TouchableOpacity>
-  )}
-
-  {/* Report Card Button - For Admin, Instructor, and Student */}
-  {(userType === 'A' || userType === 'S' || userType === 'I' || userType === 'C') && (
-    <TouchableOpacity onPress={() => {
-      if (userType === 'A' || userType === 'I') {
-        navigation.navigate('Admin ReportCard', { userName });
-      } else if (userType === 'C') {
-        navigation.navigate('Admin ReportCard', { userName });
-      } else {
-        navigation.navigate('Report Card');
-      }
-    }} style={NavigationStyles.navItem}>
-      <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
-      <Text style={NavigationStyles.navText}>Scores</Text>
-    </TouchableOpacity>
-  )}
-
-
-  {/* Messages Button - Common for all user types */}
-  {userType !== 'V' && (
-    <TouchableOpacity onPress={() => navigation.navigate('Message Center', { userName })} style={NavigationStyles.navItem}>
-      <MaterialIcons name="mail-outline" size={28} color="#fff" />
-      <Text style={NavigationStyles.navText}>Messages</Text>
-    </TouchableOpacity>
-  )}
-  {/* Profile Button - Common for all user types */}
-  <TouchableOpacity onPress={() => {
-  if (GlobalVariable.userType === 'S') {
-    navigation.navigate('Profile');
-  } else {
-    // Ensure userFirstName is defined
-    const userFirstName = GlobalVariable.userFirstName || 'DefaultFirstName';
-    navigation.navigate('User Profile', { userName, userFirstName });
-  }
-}} style={NavigationStyles.navItem}>
-  <MaterialIcons name="person" size={28} color="#fff" />
-  <Text style={NavigationStyles.navText}>Profile</Text>
-</TouchableOpacity>
-</View>
-    </View>
-  );
+    );
 };
-
-const PickerInput = ({ placeholder, items, onValueChange }) => (
-    <View style={styles.dropdownContainer}>
-        <RNPickerSelect
-            onValueChange={onValueChange}
-            items={items}
-            style={pickerSelectStyles}
-            placeholder={{ label: placeholder, value: null, color: 'black' }}
-        />
-    </View>
-);
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#f9f9f9' },

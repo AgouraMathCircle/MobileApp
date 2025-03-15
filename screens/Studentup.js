@@ -7,7 +7,6 @@ import ACElogo from '../assets/ACElogo.png';
 import styles from '../Styles/MainStyles'; // Adjust the path as necessary
 import GlobalVariable from './gobal';
 import NavigationStyles from '../Styles/NavigationStyles';
-
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ProfileScreen = () => {
@@ -21,7 +20,7 @@ const ProfileScreen = () => {
     };
 
     return (
-        <View style={{ flex: 3}}>
+        <View style={{ flex: 3 }}>
             {/* SafeAreaView for Profile Content */}
             <SafeAreaView style={styles.UserProfileScreen_container}>
                 {/* Header */}
@@ -100,75 +99,86 @@ const ProfileScreen = () => {
                 </ScrollView>
             </SafeAreaView>
 
-               {/* Bottom Navigation */}
-<View style={NavigationStyles.bottomNav}>
-  <TouchableOpacity style={NavigationStyles.navItem} onPress={() => {
-    if (GlobalVariable.userType === 'S') {
-      navigation.navigate('Student Dashboard');
-    } else if (GlobalVariable.userType === 'V') {
-      navigation.navigate('Volunteer Dashboard');
-    } else if (GlobalVariable.userType === 'I') {
-      navigation.navigate('Instructor Dashboard');
-    } else if (GlobalVariable.userType === 'A') {
-      navigation.navigate('Administrator Dashboard');
-    } else if (GlobalVariable.userType === 'C') {
-      navigation.navigate('Coordinator Dashboard');
-    } else {
-      console.error('Unknown usertype:', GlobalVariable.userType);
-    }
-  }}>
-    <MaterialIcons name="home" size={28} color="#fff" />
-    <Text style={NavigationStyles.navText}>Home</Text>
-  </TouchableOpacity>
+            {/* Bottom Navigation */}
+            <View style={NavigationStyles.bottomNav}>
+                <TouchableOpacity
+                    style={NavigationStyles.navItem}
+                    onPress={() => {
+                        if (GlobalVariable.userType === 'S') {
+                            navigation.navigate('Student Dashboard');
+                        } else if (GlobalVariable.userType === 'V') {
+                            navigation.navigate('Volunteer Dashboard');
+                        } else if (GlobalVariable.userType === 'I') {
+                            navigation.navigate('Instructor Dashboard');
+                        } else if (GlobalVariable.userType === 'A') {
+                            navigation.navigate('Administrator Dashboard');
+                        } else if (GlobalVariable.userType === 'C') {
+                            navigation.navigate('Coordinator Dashboard');
+                        } else {
+                            console.error('Unknown usertype:', GlobalVariable.userType);
+                        }
+                    }}
+                >
+                    <MaterialIcons name="home" size={28} color="#fff" />
+                    <Text style={NavigationStyles.navText}>Home</Text>
+                </TouchableOpacity>
 
-  {/* Common Class Material option */}
-  <TouchableOpacity onPress={() => navigation.navigate('Documents', { userName })} style={NavigationStyles.navItem}>
-    <MaterialIcons name="description" size={28} color="#fff" />
-    <Text style={NavigationStyles.navText}>Material</Text>
-  </TouchableOpacity> {/* Timesheet Button - For Volunteers, Administrators, Instructors, and Coordinators */}
-  {(userType === 'V' || userType === 'A' || userType === 'I' || userType === 'C') && (
-    <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={NavigationStyles.navItem}>
-      <MaterialIcons name="assessment" size={28} color="#fff" />
-      <Text style={NavigationStyles.navText}>Timesheets</Text>
-    </TouchableOpacity>
-  )}
+                {/* Common Class Material option */}
+                <TouchableOpacity onPress={() => navigation.navigate('Documents', { userName })} style={NavigationStyles.navItem}>
+                    <MaterialIcons name="description" size={28} color="#fff" />
+                    <Text style={NavigationStyles.navText}>Material</Text>
+                </TouchableOpacity>
 
-  {/* Report Card Button - For Admin, Instructor, and Student */}
-  {(userType === 'A' || userType === 'S' || userType === 'I' || userType === 'C') && (
-    <TouchableOpacity onPress={() => {
-      if (userType === 'A' || userType === 'I') {
-        navigation.navigate('Admin ReportCard', { userName });
-      } else if (userType === 'C') {
-        navigation.navigate('Admin ReportCard', { userName });
-      } else {
-        navigation.navigate('Report Card');
-      }
-    }} style={NavigationStyles.navItem}>
-      <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
-      <Text style={NavigationStyles.navText}>Scores</Text>
-    </TouchableOpacity>
-  )}
+                {/* Timesheet Button - For Volunteers, Administrators, Instructors, and Coordinators */}
+                {(userType === 'V' || userType === 'A' || userType === 'I' || userType === 'C') && (
+                    <TouchableOpacity onPress={() => navigation.navigate('Timesheet', { userName })} style={NavigationStyles.navItem}>
+                        <MaterialIcons name="assessment" size={28} color="#fff" />
+                        <Text style={NavigationStyles.navText}>Timesheets</Text>
+                    </TouchableOpacity>
+                )}
 
+                {/* Report Card Button - For Admin, Instructor, and Student */}
+                {(userType === 'A' || userType === 'S' || userType === 'I' || userType === 'C') && (
+                    <TouchableOpacity
+                        onPress={() => {
+                            if (userType === 'A' || userType === 'I') {
+                                navigation.navigate('Admin ReportCard', { userName });
+                            } else if (userType === 'C') {
+                                navigation.navigate('Admin ReportCard', { userName });
+                            } else {
+                                navigation.navigate('Report Card');
+                            }
+                        }}
+                        style={NavigationStyles.navItem}
+                    >
+                        <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />
+                        <Text style={NavigationStyles.navText}>Scores</Text>
+                    </TouchableOpacity>
+                )}
 
-  {/* Messages Button - Common for all user types */}
-  {userType !== 'V' && (
-    <TouchableOpacity onPress={() => navigation.navigate('Message Center', { userName })} style={NavigationStyles.navItem}>
-      <MaterialIcons name="mail-outline" size={28} color="#fff" />
-      <Text style={NavigationStyles.navText}>Messages</Text>
-    </TouchableOpacity>
-  )}
-  {/* Profile Button - Common for all user types */}
-  <TouchableOpacity onPress={() => {
-    if (GlobalVariable.userType === 'S') {
-      navigation.navigate('Profile');
-    } else {
-      navigation.navigate('User Profile', { userName, userFirstName });
-    }
-  }} style={NavigationStyles.navItem}>
-    <MaterialIcons name="person" size={28} color="#fff" />
-    <Text style={NavigationStyles.navText}>Profile</Text>
-  </TouchableOpacity>
-</View>
+                {/* Messages Button - Common for all user types */}
+                {userType !== 'V' && (
+                    <TouchableOpacity onPress={() => navigation.navigate('Message Center', { userName })} style={NavigationStyles.navItem}>
+                        <MaterialIcons name="mail-outline" size={28} color="#fff" />
+                        <Text style={NavigationStyles.navText}>Messages</Text>
+                    </TouchableOpacity>
+                )}
+
+                {/* Profile Button - Common for all user types */}
+                <TouchableOpacity
+                    onPress={() => {
+                        if (GlobalVariable.userType === 'S') {
+                            navigation.navigate('Profile');
+                        } else {
+                            navigation.navigate('User Profile', { userName, userFirstName });
+                        }
+                    }}
+                    style={NavigationStyles.navItem}
+                >
+                    <MaterialIcons name="person" size={28} color="#fff" />
+                    <Text style={NavigationStyles.navText}>Profile</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };

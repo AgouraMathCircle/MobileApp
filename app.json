@@ -1,17 +1,18 @@
 {
   "expo": {
     "name": "AgouraMathCircle",
-    "slug": "AgouraMAthCircle",
-    "version": "10.0",
+    "slug": "AgouraMathCircle",
+    "version": "10.1.1",
     "orientation": "portrait",
     "icon": "./assets/ACElogo.png",
     "userInterfaceStyle": "light",
-    "splash": {
+     "splash": {
       "image": "./assets/ACElogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "newArchEnabled": true, 
       "config": {
         "usesNonExemptEncryption": false
       },
@@ -19,6 +20,7 @@
       "bundleIdentifier": "com.agouramathcircle.org"
     },
     "android": {
+      "newArchEnabled": true, 
       "package": "agouramathcircle.AgouraMathCircle",
       "versionCode": 1,
       "adaptiveIcon": {
@@ -28,11 +30,7 @@
     },
     "web": {
       "favicon": "./assets/ACElogo.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "b1a83091-a645-4b85-9df1-c2830bf7c1c6"
-      }
     }
+   
   }
 }
