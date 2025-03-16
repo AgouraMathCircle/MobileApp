@@ -227,6 +227,28 @@ export default function App() {
                     {/* Time Entry Form */}
                     <Text style={styles.Timesheet_formHeader}>Add/Update Time Sheet</Text>
                     <Divider />
+
+                    {/* Task Name Dropdown */}
+                    <View style={styles.pickerContainer}>
+                        <Text>Task Name:</Text>
+                        <RNPickerSelect
+                            onValueChange={(itemValue) => setForm({ ...form, taskName: itemValue })}
+                            items={taskOptions}
+                            style={{
+                                ...pickerSelectStyles,
+                                iconContainer: {
+                                    top: 10,
+                                    right: 12,
+                                },
+                            }}
+                            value={form.taskName}
+                            placeholder={{ label: 'Select Task Name', value: null }}
+                            Icon={() => {
+                                return <MaterialIcons name="arrow-drop-down" size={24} color="gray" />;
+                            }}
+                        />
+                    </View>
+
                     {/* Picker and Form Fields */}
                     <Button mode="outlined" onPress={() => setShowDatePicker(true)} style={styles.Timesheet_button}>
                         <Text style={styles.Timesheet_buttonText}>
@@ -251,9 +273,18 @@ export default function App() {
                         <RNPickerSelect
                             onValueChange={(itemValue) => setForm({ ...form, startTime: itemValue })}
                             items={timeOptions}
-                            style={pickerSelectStyles}
+                            style={{
+                                ...pickerSelectStyles,
+                                iconContainer: {
+                                    top: 10,
+                                    right: 12,
+                                },
+                            }}
                             value={form.startTime}
                             placeholder={{ label: 'Select Start Time', value: null }}
+                            Icon={() => {
+                                return <MaterialIcons name="arrow-drop-down" size={24} color="gray" />;
+                            }}
                         />
                     </View>
 
@@ -262,9 +293,18 @@ export default function App() {
                         <RNPickerSelect
                             onValueChange={(itemValue) => setForm({ ...form, endTime: itemValue })}
                             items={timeOptions}
-                            style={pickerSelectStyles}
+                            style={{
+                                ...pickerSelectStyles,
+                                iconContainer: {
+                                    top: 10,
+                                    right: 12,
+                                },
+                            }}
                             value={form.endTime}
                             placeholder={{ label: 'Select End Time', value: null }}
+                            Icon={() => {
+                                return <MaterialIcons name="arrow-drop-down" size={24} color="gray" />;
+                            }}
                         />
                     </View>
 
