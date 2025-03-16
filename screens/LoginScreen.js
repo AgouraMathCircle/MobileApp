@@ -23,14 +23,18 @@ const LoginScreen = ({ navigation }) => {
 
   useEffect(() => {
     const loadStoredCredentials = async () => {
-      const storedUsername = await AsyncStorage.getItem('username');
-      const storedPassword = await AsyncStorage.getItem('password');
-      const remember = await AsyncStorage.getItem('rememberMe') === 'true';
-      if (storedUsername && storedPassword && remember) {
-        setUsername(storedUsername);
-        setPassword(storedPassword);
-        setRememberMe(remember);
-        handleLoginSkip(storedUsername, storedPassword);
+      try {
+        const storedUsername = await AsyncStorage.getItem('username');
+        const storedPassword = await AsyncStorage.getItem('password');
+        const remember = await AsyncStorage.getItem('rememberMe') === 'true';
+        if (storedUsername && storedPassword && remember) {
+          setUsername(storedUsername);
+          setPassword(storedPassword);
+          setRememberMe(remember);
+          handleLoginSkip(storedUsername, storedPassword);
+        }
+      } catch (error) {
+        console.error('Error loading stored credentials:', error);
       }
     };
     loadStoredCredentials();
@@ -66,14 +70,18 @@ const LoginScreen = ({ navigation }) => {
         GlobalVariable.userType = userType;
         GlobalVariable.enableScoreUpdate = enableScoreUpdate;
 
-        if (rememberMe) {
-          await AsyncStorage.setItem('username', username);
-          await AsyncStorage.setItem('password', password);
-          await AsyncStorage.setItem('rememberMe', 'true');
-        } else {
-          await AsyncStorage.removeItem('username');
-          await AsyncStorage.removeItem('password');
-          await AsyncStorage.removeItem('rememberMe');
+        try {
+          if (rememberMe) {
+            await AsyncStorage.setItem('username', username);
+            await AsyncStorage.setItem('password', password);
+            await AsyncStorage.setItem('rememberMe', 'true');
+          } else {
+            await AsyncStorage.removeItem('username');
+            await AsyncStorage.removeItem('password');
+            await AsyncStorage.removeItem('rememberMe');
+          }
+        } catch (error) {
+          console.error('Error saving credentials:', error);
         }
 
         await trackUser(userId, userEmail, userType, userFirstName, userLastName);
@@ -152,7 +160,6 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const handleLoginError = async (message) => {
-    // Clear AsyncStorage in case of login failure
     try {
       await AsyncStorage.removeItem('username');
       await AsyncStorage.removeItem('password');
@@ -175,7 +182,6 @@ const LoginScreen = ({ navigation }) => {
       Alert.alert('Error', 'Failed to connect to the server. Please try again.');
     }
 
-    // Optionally clear stored credentials in case of failure to avoid re-using old credentials
     handleLoginError('Failed to connect to the server. Please try again.');
   };
 

@@ -1,26 +1,37 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const pickerSelectStyles = StyleSheet.create({
-    placeholder: {
-      color: '#696969',
-      fontFamily: Platform.OS === 'ios' ? 'System' : 'Roboto',
-    },
     inputIOS: {
-      borderWidth: 1,
-      borderColor: '#357a38',
-      padding: 10,
-      borderRadius: 5,
-      marginBottom: 15,
-      color: '#000',
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: '#357a38',
+        borderRadius: 5,
+        color: 'black',
+        paddingRight: 30, // Ensure the arrow doesn't overlap the text
+        backgroundColor: '#fff',
+        marginVertical: 5,
     },
     inputAndroid: {
-      borderWidth: 1,
-      borderColor: '#357a38',
-      padding: 10,
-      borderRadius: 5,
-      marginBottom: 15,
-      color: '#000',
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: '#357a38',
+        borderRadius: 5,
+        color: 'black',
+        paddingRight: 30, // Ensure the arrow doesn't overlap the text
+        backgroundColor: '#fff',
+        marginVertical: 5,
     },
-  });
+    iconContainer: {
+        top: 15,
+        right: 10,
+    },
+    placeholder: {
+        color: '#a9a9a9', // Placeholder text color
+    },
+});
 
 export default pickerSelectStyles;

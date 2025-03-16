@@ -2,25 +2,28 @@
   "expo": {
     "name": "AgouraMathCircle",
     "slug": "AgouraMathCircle",
-    "version": "10.1.1",
+    "version": "10.2.0",
     "orientation": "portrait",
     "icon": "./assets/ACElogo.png",
     "userInterfaceStyle": "light",
-     "splash": {
+    "splash": {
       "image": "./assets/ACElogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "newArchEnabled": true, 
+      "newArchEnabled": true,
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSDocumentsFolderUsageDescription": "This app needs access to the documents folder to store data."
       },
       "supportsTablet": true,
       "bundleIdentifier": "com.agouramathcircle.org"
     },
     "android": {
-      "newArchEnabled": true, 
+      "newArchEnabled": true,
       "package": "agouramathcircle.AgouraMathCircle",
       "versionCode": 1,
       "adaptiveIcon": {
@@ -30,7 +33,11 @@
     },
     "web": {
       "favicon": "./assets/ACElogo.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "60c5edb8-edf0-4616-80ca-4b77b73aba76"
+      }
     }
-   
   }
 }

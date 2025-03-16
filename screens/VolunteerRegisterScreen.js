@@ -35,7 +35,7 @@ const VolunteerRegistration = () => {
 
   const fetchUtilityData = async () => {
     try {
-      const response = await fetch(GlobalVariable.AMCApiurl+'UtilityList');
+      const response = await fetch(GlobalVariable.AMCApiurl + 'UtilityList');
       if (!response.ok) throw new Error(`Error: ${response.statusText}`);
       const data = await response.json();
 
@@ -129,7 +129,7 @@ const VolunteerRegistration = () => {
     };
 
     try {
-      const response = await fetch(GlobalVariable.AMCApiurl+'VolunteerRegistration', {
+      const response = await fetch(GlobalVariable.AMCApiurl + 'VolunteerRegistration', {
         method: 'POST',
         headers: {
           'Accept': '*/*',
@@ -164,7 +164,7 @@ const VolunteerRegistration = () => {
       console.error('Error submitting form:', error);
     }
   };
-  
+
   if (loading) {
     return <ActivityIndicator size="large" color="#357a38" />;
   }
@@ -212,14 +212,17 @@ const VolunteerRegistration = () => {
               value={form.state}
               onChangeText={(value) => handleInputChange('state', value)}
             />
-             {/* Country Picker */}
-             <RNPickerSelect
-              onValueChange={(value) => handleInputChange('country', value)}
-              items={countries}
-              value={form.country}
-              placeholder={{ label: 'Select your Country', value: null }}
-              style={pickerSelectStyles}
-            />
+            {/* Country Picker */}
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('country', value)}
+                items={countries}
+                value={form.country}
+                placeholder={{ label: 'Select your Country', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
 
             <Button title="Next" onPress={nextStep} color='#357a38' />
           </View>
@@ -236,39 +239,51 @@ const VolunteerRegistration = () => {
               onChangeText={(value) => handleInputChange('school', value)}
             />
             {/* Grade Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('grade', value)}
-              items={grades}
-              value={form.grade}
-              placeholder={{ label: 'Select your Grade', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('grade', value)}
+                items={grades}
+                value={form.grade}
+                placeholder={{ label: 'Select your Grade', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
             {/* Course Location Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('course', value)}
-              items={locations}
-              value={form.course}
-              placeholder={{ label: 'Select your Course Location', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('course', value)}
+                items={locations}
+                value={form.course}
+                placeholder={{ label: 'Select your Course Location', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
 
             {/* Interest Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('interest', value)}
-              items={interests}
-              value={form.interest}
-              placeholder={{ label: 'Select your Field of Interest', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('interest', value)}
+                items={interests}
+                value={form.interest}
+                placeholder={{ label: 'Select your Field of Interest', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
 
             {/* Course Session Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('registerFor', value)}
-              items={courseSessions}
-              value={form.registerFor}
-              placeholder={{ label: 'Select your Course Session', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('registerFor', value)}
+                items={courseSessions}
+                value={form.registerFor}
+                placeholder={{ label: 'Select your Course Session', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
 
             <TextInput
               style={styles.input}
@@ -315,13 +330,15 @@ const styles = StyleSheet.create({
   header: { fontSize: 24, fontWeight: 'bold', marginBottom: 15, color: '#357a38' },
   subHeader: { fontSize: 18, fontWeight: '600', marginVertical: 10, color: '#2c3e50' },
   input: { borderBottomWidth: 1, marginBottom: 15, padding: 12, borderColor: 'darkgreen', borderRadius: 8, fontSize: 16, color: '#34495e' },
+  pickerContainer: { marginBottom: 15, borderBottomWidth: 1, borderColor: 'darkgreen', borderRadius: 8 },
+  dropdownIcon: { position: 'absolute', right: 10, top: 12, fontSize: 16, color: '#357a38' },
   navigationButtons: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 },
   checkbox: { fontSize: 16, marginVertical: 10, color: '#7f8c8d' },
 });
 
 const pickerSelectStyles = {
-  inputIOS: { fontSize: 16, paddingVertical: 12, paddingHorizontal: 10, borderWidth: 1, borderColor: 'darkgreen', borderRadius: 8, color: 'black', paddingRight: 30 },
-  inputAndroid: { fontSize: 16, paddingVertical: 8, paddingHorizontal: 10, borderWidth: 0.5, borderColor: 'darkgreen', borderRadius: 8, color: 'black', paddingRight: 30 },
+  inputIOS: { fontSize: 16, paddingVertical: 12, paddingHorizontal: 10, borderWidth: 0, color: 'black', paddingRight: 30 },
+  inputAndroid: { fontSize: 16, paddingVertical: 8, paddingHorizontal: 10, borderWidth: 0, color: 'black', paddingRight: 30 },
 };
 
 export default VolunteerRegistration;

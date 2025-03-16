@@ -163,18 +163,24 @@ const ReportCard = ({ navigation }) => {
 
                         {showInputFields && (
                             <>
-                                <RNPickerSelect
-                                    placeholder={{ label: "--Student Name--", value: null }}
-                                    items={students}
-                                    onValueChange={setSelectedStudent}
-                                    style={pickerSelectStyles}
-                                />
-                                <RNPickerSelect
-                                    placeholder={{ label: "--Session--", value: null }}
-                                    items={sessions}
-                                    onValueChange={setSession}
-                                    style={pickerSelectStyles}
-                                />
+                                <View style={styles.pickerContainer}>
+                                    <RNPickerSelect
+                                        placeholder={{ label: "--Student Name--", value: null }}
+                                        items={students}
+                                        onValueChange={setSelectedStudent}
+                                        style={pickerSelectStyles}
+                                        Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+                                    />
+                                </View>
+                                <View style={styles.pickerContainer}>
+                                    <RNPickerSelect
+                                        placeholder={{ label: "--Session--", value: null }}
+                                        items={sessions}
+                                        onValueChange={setSession}
+                                        style={pickerSelectStyles}
+                                        Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+                                    />
+                                </View>
 
                                 <TextInput
                                     style={styles.input}
@@ -313,7 +319,8 @@ const styles = StyleSheet.create({
     line: { borderBottomColor: '#357a38', borderBottomWidth: 2, marginBottom: 10 },
     button: { backgroundColor: 'darkgreen', borderRadius: 5, paddingVertical: 10, alignItems: 'center', marginVertical: 10 },
     buttonText: { color: 'white', fontWeight: 'bold' },
-    dropdownContainer: { marginVertical: 10 },
+    pickerContainer: { marginVertical: 10, borderBottomWidth: 1, borderColor: 'darkgreen', borderRadius: 8 },
+    dropdownIcon: { position: 'absolute', right: 10, top: 12, fontSize: 16, color: '#357a38' },
     input: { borderColor: '#357a38', borderWidth: 1, borderRadius: 5, padding: 10, marginVertical: 5, backgroundColor: '#fff' },
     successText: { color: 'green', fontSize: 16, textAlign: 'center', marginVertical: 8 },
     errorText: { color: 'red', fontSize: 16, textAlign: 'center', marginVertical: 8 },

@@ -157,7 +157,7 @@ const InstructordbDashboardScreen = ({ navigation }) => {
 <View style={styles.Studentdb_bottomNav}>
   <TouchableOpacity onPress={() => navigation.navigate('Documents')} style={styles.Studentdb_navItem}>
           <MaterialIcons name="description" size={28} color="#fff" />
-          <Text style={styles.Studentdb_navText}>Class Material</Text>
+          <Text style={styles.Studentdb_navText}>Material</Text>
   </TouchableOpacity>
   <TouchableOpacity onPress={() => navigation.navigate('Admin ReportCard', { userName })} style={styles.Studentdb_navItem}>
     <MaterialIcons name="insert-chart-outlined" size={28} color="#fff" />

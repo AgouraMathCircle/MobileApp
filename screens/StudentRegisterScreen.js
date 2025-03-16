@@ -1,4 +1,3 @@
-// Import Modules
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ScrollView, View, Text, TextInput, Button, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
@@ -251,13 +250,16 @@ const StudentRegistration = ({ navigation }) => {
               onChangeText={(value) => handleInputChange('state', value)}
             />
             {/* Country Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('country', value)}
-              items={countries}
-              value={form.country}
-              placeholder={{ label: 'Select your Country', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('country', value)}
+                items={countries}
+                value={form.country}
+                placeholder={{ label: 'Select your Country', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
             <Button title="Next" onPress={nextStep} color="#357a38" />
           </View>
         )}
@@ -292,39 +294,51 @@ const StudentRegistration = ({ navigation }) => {
               onChangeText={(value) => handleInputChange('school', value)}
             />
             {/* Grade Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('grade', value)}
-              items={gradeSelect}
-              value={form.grade}
-              placeholder={{ label: 'Select your Grade', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('grade', value)}
+                items={gradeSelect}
+                value={form.grade}
+                placeholder={{ label: 'Select your Grade', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
             {/* Course Location Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('location', value)}
-              items={locations}
-              value={form.location}
-              placeholder={{ label: 'Select your Course Location', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('location', value)}
+                items={locations}
+                value={form.location}
+                placeholder={{ label: 'Select your Course Location', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
 
             {/* Course Session Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('session', value)}
-              items={courseSessions}
-              value={form.session}
-              placeholder={{ label: 'Register For', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('session', value)}
+                items={courseSessions}
+                value={form.session}
+                placeholder={{ label: 'Register For', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
 
             {/* Username Picker */}
-            <RNPickerSelect
-              onValueChange={(value) => handleInputChange('username', value)}
-              items={usernameOptions}
-              value={form.username}
-              placeholder={{ label: 'Username', value: null }}
-              style={pickerSelectStyles}
-            />
+            <View style={styles.pickerContainer}>
+              <RNPickerSelect
+                onValueChange={(value) => handleInputChange('username', value)}
+                items={usernameOptions}
+                value={form.username}
+                placeholder={{ label: 'Username', value: null }}
+                style={pickerSelectStyles}
+                Icon={() => <Text style={styles.dropdownIcon}>▼</Text>}
+              />
+            </View>
 
             <View style={styles.navigationButtons}>
               <Button title="Back" onPress={previousStep} color="#357a38" />
@@ -383,14 +397,16 @@ const styles = StyleSheet.create({
   header: { fontSize: 24, fontWeight: 'bold', marginBottom: 15, color: '#357a38' },
   subHeader: { fontSize: 20, fontWeight: '600', marginVertical: 10, color: '#2c3e50' },
   input: { borderBottomWidth: 1, marginBottom: 15, padding: 12, borderColor: 'darkgreen', borderRadius: 8, fontSize: 16, color: '#34495e' },
+  pickerContainer: { marginBottom: 15, borderBottomWidth: 1, borderColor: 'darkgreen', borderRadius: 8 },
+  dropdownIcon: { position: 'absolute', right: 10, top: 12, fontSize: 16, color: '#357a38' },
   navigationButtons: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 },
   checkbox: { fontSize: 16, marginVertical: 10, color: '#7f8c8d' },
   title: { fontSize: 16, fontWeight: '600', marginVertical: 10, color: '#2c3e50', alignSelf: 'center' },
 });
 
 const pickerSelectStyles = {
-  inputIOS: { fontSize: 16, paddingVertical: 12, paddingHorizontal: 10, borderWidth: 1, borderColor: 'darkgreen', borderRadius: 8, color: 'black', paddingRight: 30, marginVertical: 10 },
-  inputAndroid: { fontSize: 16, paddingVertical: 8, paddingHorizontal: 10, borderWidth: 0.5, borderColor: 'darkgreen', borderRadius: 8, color: 'black', paddingRight: 30 },
+  inputIOS: { fontSize: 16, paddingVertical: 12, paddingHorizontal: 10, borderWidth: 0, color: 'black', paddingRight: 30, marginVertical: 10 },
+  inputAndroid: { fontSize: 16, paddingVertical: 8, paddingHorizontal: 10, borderWidth: 0, color: 'black', paddingRight: 30 },
 };
 
 export default StudentRegistration;

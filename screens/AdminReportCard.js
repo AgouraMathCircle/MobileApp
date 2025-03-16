@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import pickerSelectStyles from '../Styles/pickerSelectStyles';
+import pickerSelectStyles from '../Styles/pickerSelectStyles'; // Import the updated styles
 import GlobalVariable from './gobal';
 import { MaterialIcons } from 'react-native-vector-icons';
 import NavigationStyles from '../Styles/NavigationStyles';
@@ -161,13 +161,20 @@ const ReportCard = ({ navigation }) => {
                                     placeholder={{ label: "--Student Name--", value: null }}
                                     items={students}
                                     onValueChange={setSelectedStudent}
-                                    style={pickerSelectStyles}
+                                    style={pickerSelectStyles} // Apply the updated styles
+                                    Icon={() => {
+                                        return <MaterialIcons name="arrow-drop-down" size={24} color="#357a38" />; // Custom down arrow
+                                    }}
                                 />
+
                                 <RNPickerSelect
                                     placeholder={{ label: "--Session--", value: null }}
                                     items={sessions}
                                     onValueChange={setSession}
-                                    style={pickerSelectStyles}
+                                    style={pickerSelectStyles} // Apply the updated styles
+                                    Icon={() => {
+                                        return <MaterialIcons name="arrow-drop-down" size={24} color="#357a38" />; // Custom down arrow
+                                    }}
                                 />
 
                                 <TextInput
