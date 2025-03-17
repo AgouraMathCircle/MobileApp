@@ -2,7 +2,7 @@
   "expo": {
     "name": "AgouraMathCircle",
     "slug": "AgouraMathCircle",
-    "version": "10.2.0",
+    "version": "10.3.0",
     "orientation": "portrait",
     "icon": "./assets/ACElogo.png",
     "userInterfaceStyle": "light",
